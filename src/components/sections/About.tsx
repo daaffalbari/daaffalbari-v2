@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
+import Image from "next/image";
 import {
   Brain,
   Server,
@@ -65,6 +66,29 @@ export function About() {
           animate={isInView ? "visible" : "hidden"}
           className="grid gap-4 md:grid-cols-12"
         >
+          {/* Profile Image Card */}
+          <motion.div
+            variants={itemVariants}
+            className="bento-item relative overflow-hidden md:col-span-4 md:row-span-2"
+          >
+            <div className="absolute inset-0">
+              <Image
+                src="/images/profile/daffa.jpg"
+                alt={personalInfo.name}
+                fill
+                className="object-cover"
+              />
+              {/* Gradient Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-[var(--card)] via-[var(--card)]/50 to-transparent" />
+            </div>
+            <div className="relative mt-auto flex h-full flex-col justify-end">
+              <h3 className="text-xl font-semibold">{personalInfo.name}</h3>
+              <p className="text-sm text-[var(--foreground-muted)]">
+                {personalInfo.title}
+              </p>
+            </div>
+          </motion.div>
+
           {/* Main Bio Card */}
           <motion.div
             variants={itemVariants}
