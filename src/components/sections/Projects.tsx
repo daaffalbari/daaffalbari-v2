@@ -31,7 +31,7 @@ export function Projects() {
           <span className="mb-4 inline-block font-mono text-sm text-[var(--accent)]">
             Projects
           </span>
-          <h2 className="section-title">Things I've Built</h2>
+          <h2 className="section-title">Things I&apos;ve Built</h2>
         </motion.div>
 
         {/* Category Filter */}

@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Command } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { navLinks, personalInfo } from "@/lib/data";
+import { ThemeToggle } from "./ThemeToggle";
 
 interface NavigationProps {
   onOpenCommandPalette: () => void;
@@ -100,6 +101,8 @@ export function Navigation({ onOpenCommandPalette }: NavigationProps) {
               <Command className="h-3 w-3" />
               <span>K</span>
             </button>
+
+            <ThemeToggle />
 
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}

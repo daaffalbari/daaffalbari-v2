@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef, useCallback, useState } from "react";
 
 interface Node {
   x: number;
@@ -16,11 +16,25 @@ interface NeuralNetworkProps {
   className?: string;
 }
 
+function parseRGBA(cssColor: string): { r: number; g: number; b: number; a: number } {
+  const match = cssColor.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/);
+  if (match) {
+    return {
+      r: parseInt(match[1]),
+      g: parseInt(match[2]),
+      b: parseInt(match[3]),
+      a: match[4] ? parseFloat(match[4]) : 1,
+    };
+  }
+  return { r: 34, g: 211, b: 238, a: 1 };
+}
+
 export function NeuralNetwork({ className }: NeuralNetworkProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const nodesRef = useRef<Node[]>([]);
   const mouseRef = useRef({ x: 0, y: 0, active: false });
   const animationRef = useRef<number>();
+  const colorsRef = useRef({ node: { r: 34, g: 211, b: 238 }, line: { r: 34, g: 211, b: 238 } });
 
   const createNodes = useCallback((width: number, height: number) => {
     const nodes: Node[] = [];
@@ -42,6 +56,20 @@ export function NeuralNetwork({ className }: NeuralNetworkProps) {
     return nodes;
   }, []);
 
+  const updateColors = useCallback(() => {
+    const styles = getComputedStyle(document.documentElement);
+    const nodeColor = styles.getPropertyValue("--neural-node").trim();
+    const lineColor = styles.getPropertyValue("--neural-line").trim();
+
+    const nodeParsed = parseRGBA(nodeColor);
+    const lineParsed = parseRGBA(lineColor);
+
+    colorsRef.current = {
+      node: { r: nodeParsed.r, g: nodeParsed.g, b: nodeParsed.b },
+      line: { r: lineParsed.r, g: lineParsed.g, b: lineParsed.b },
+    };
+  }, []);
+
   const draw = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -53,6 +81,7 @@ export function NeuralNetwork({ className }: NeuralNetworkProps) {
     const height = canvas.height;
     const nodes = nodesRef.current;
     const mouse = mouseRef.current;
+    const { node: nodeColor, line: lineColor } = colorsRef.current;
 
     ctx.clearRect(0, 0, width, height);
 
@@ -98,7 +127,7 @@ export function NeuralNetwork({ className }: NeuralNetworkProps) {
         if (dist < maxConnectionDist) {
           const opacity = (1 - dist / maxConnectionDist) * 0.15;
           ctx.beginPath();
-          ctx.strokeStyle = `rgba(34, 211, 238, ${opacity})`;
+          ctx.strokeStyle = `rgba(${lineColor.r}, ${lineColor.g}, ${lineColor.b}, ${opacity})`;
           ctx.lineWidth = 1;
           ctx.moveTo(node.x, node.y);
           ctx.lineTo(other.x, other.y);
@@ -115,8 +144,8 @@ export function NeuralNetwork({ className }: NeuralNetworkProps) {
         node.y,
         node.radius * 4
       );
-      nodeGradient.addColorStop(0, "rgba(34, 211, 238, 0.4)");
-      nodeGradient.addColorStop(1, "rgba(34, 211, 238, 0)");
+      nodeGradient.addColorStop(0, `rgba(${nodeColor.r}, ${nodeColor.g}, ${nodeColor.b}, 0.4)`);
+      nodeGradient.addColorStop(1, `rgba(${nodeColor.r}, ${nodeColor.g}, ${nodeColor.b}, 0)`);
 
       ctx.beginPath();
       ctx.fillStyle = nodeGradient;
@@ -125,7 +154,7 @@ export function NeuralNetwork({ className }: NeuralNetworkProps) {
 
       // Core of node
       ctx.beginPath();
-      ctx.fillStyle = "rgba(34, 211, 238, 0.8)";
+      ctx.fillStyle = `rgba(${nodeColor.r}, ${nodeColor.g}, ${nodeColor.b}, 0.8)`;
       ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
       ctx.fill();
     });
@@ -160,6 +189,21 @@ export function NeuralNetwork({ className }: NeuralNetworkProps) {
       mouseRef.current.active = false;
     };
 
+    // Watch for theme changes
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.attributeName === "data-theme") {
+          updateColors();
+        }
+      });
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme"],
+    });
+
+    updateColors();
     handleResize();
     window.addEventListener("resize", handleResize);
     canvas.addEventListener("mousemove", handleMouseMove);
@@ -168,6 +212,7 @@ export function NeuralNetwork({ className }: NeuralNetworkProps) {
     animationRef.current = requestAnimationFrame(draw);
 
     return () => {
+      observer.disconnect();
       window.removeEventListener("resize", handleResize);
       canvas.removeEventListener("mousemove", handleMouseMove);
       canvas.removeEventListener("mouseleave", handleMouseLeave);
@@ -175,7 +220,7 @@ export function NeuralNetwork({ className }: NeuralNetworkProps) {
         cancelAnimationFrame(animationRef.current);
       }
     };
-  }, [createNodes, draw]);
+  }, [createNodes, draw, updateColors]);
 
   return (
     <canvas

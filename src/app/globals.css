@@ -14,9 +14,9 @@
   --card-border-hover: #3f3f46;
 
   /* Single Accent - Clean Cyan */
-  --accent: #22d3ee;
+  --accent: #0891b2;
   --accent-muted: #0e7490;
-  --accent-green: #22c55e;
+  --accent-green: #16a34a;
 
   /* Minimal Gradient */
   --gradient-primary: linear-gradient(135deg, #22d3ee 0%, #06b6d4 100%);
@@ -33,6 +33,10 @@
   --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.6);
   --shadow-glow: 0 0 40px rgba(34, 211, 238, 0.2);
 
+  /* Neural Network */
+  --neural-node: rgba(34, 211, 238, 0.6);
+  --neural-line: rgba(34, 211, 238, 0.15);
+
   /* Spacing & Sizing */
   --nav-height: 64px;
   --section-padding: clamp(4rem, 10vw, 8rem);
@@ -42,6 +46,44 @@
   --transition-base: 300ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-spring: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Light Theme */
+[data-theme="light"] {
+  --background: #fafafa;
+  --background-secondary: #f4f4f5;
+  --foreground: #09090b;
+  --foreground-muted: #52525b;
+
+  /* Cards & Surfaces */
+  --card: #ffffff;
+  --card-hover: #f4f4f5;
+  --card-border: #e4e4e7;
+  --card-border-hover: #a1a1aa;
+
+  /* Accent - Darker for light mode contrast */
+  --accent: #0891b2;
+  --accent-muted: #06b6d4;
+  --accent-green: #16a34a;
+
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, #0891b2 0%, #0e7490 100%);
+  --gradient-subtle: linear-gradient(135deg, rgba(8, 145, 178, 0.08) 0%, rgba(8, 145, 178, 0.03) 100%);
+  --gradient-glow: radial-gradient(ellipse at center, rgba(8, 145, 178, 0.08) 0%, transparent 70%);
+
+  /* Glassmorphism */
+  --glass-background: rgba(255, 255, 255, 0.9);
+  --glass-border: rgba(0, 0, 0, 0.05);
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.1);
+  --shadow-glow: 0 0 40px rgba(8, 145, 178, 0.15);
+
+  /* Neural Network */
+  --neural-node: rgba(8, 145, 178, 0.7);
+  --neural-line: rgba(8, 145, 178, 0.12);
 }
 
 @theme inline {
@@ -92,6 +134,7 @@ body {
   font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
   min-height: 100vh;
   overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Noise Texture Overlay */
@@ -108,10 +151,18 @@ body::before {
   z-index: 1000;
 }
 
+[data-theme="light"] body::before {
+  opacity: 0.015;
+}
+
 /* Selection */
 ::selection {
   background: rgba(34, 211, 238, 0.3);
   color: var(--foreground);
+}
+
+[data-theme="light"] ::selection {
+  background: rgba(8, 145, 178, 0.2);
 }
 
 /* Scrollbar */
@@ -298,6 +349,10 @@ h1, h2, h3, h4, h5, h6 {
   overflow: hidden;
 }
 
+[data-theme="light"] .terminal {
+  background: #1e1e1e;
+}
+
 .terminal-header {
   display: flex;
   align-items: center;
@@ -354,6 +409,16 @@ h1, h2, h3, h4, h5, h6 {
 .skill-pill:hover {
   background: rgba(34, 211, 238, 0.15);
   border-color: rgba(34, 211, 238, 0.3);
+}
+
+[data-theme="light"] .skill-pill {
+  background: rgba(8, 145, 178, 0.08);
+  border-color: rgba(8, 145, 178, 0.15);
+}
+
+[data-theme="light"] .skill-pill:hover {
+  background: rgba(8, 145, 178, 0.12);
+  border-color: rgba(8, 145, 178, 0.25);
 }
 
 /* Timeline */
@@ -437,6 +502,10 @@ h1, h2, h3, h4, h5, h6 {
   outline: none;
   border-color: var(--accent);
   box-shadow: 0 0 0 2px rgba(34, 211, 238, 0.1);
+}
+
+[data-theme="light"] .form-input:focus {
+  box-shadow: 0 0 0 2px rgba(8, 145, 178, 0.1);
 }
 
 .form-input::placeholder {
@@ -570,6 +639,10 @@ h1, h2, h3, h4, h5, h6 {
   padding-top: 20vh;
 }
 
+[data-theme="light"] .cmd-overlay {
+  background: rgba(0, 0, 0, 0.5);
+}
+
 .cmd-palette {
   width: 100%;
   max-width: 560px;
@@ -633,4 +706,8 @@ h1, h2, h3, h4, h5, h6 {
 
 .project-card:hover .project-card-overlay {
   opacity: 1;
+}
+
+[data-theme="light"] .project-card-overlay {
+  background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.85) 100%);
 }
