@@ -93,7 +93,7 @@ export function Hero() {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="mb-4 text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl"
           >
-            {personalInfo.name}
+            Hi, I am Daffa Albari 👋🏼
           </motion.h1>
 
           {/* Typewriter Role */}
@@ -174,23 +174,6 @@ export function Hero() {
         </div>
       </motion.div>
 
-      {/* Scroll Indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5, delay: 1 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
-      >
-        <motion.a
-          href="#about"
-          className="flex flex-col items-center gap-2 text-[var(--foreground-muted)]"
-          animate={{ y: [0, 6, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-        >
-          <span className="text-xs uppercase tracking-widest">Scroll</span>
-          <ArrowDown className="h-4 w-4" />
-        </motion.a>
-      </motion.div>
     </section>
   );
 }
