@@ -6,6 +6,8 @@ import { Navigation } from "@/components/Navigation";
 import { CommandPalette } from "@/components/CommandPalette";
 import { Footer } from "@/components/Footer";
 import { SmoothScroll } from "@/components/SmoothScroll";
+import { CursorTrail } from "@/components/CursorTrail";
+import { Chatbot } from "@/components/Chatbot";
 import {
   Hero,
   About,
@@ -18,6 +20,7 @@ import {
 
 export default function Home() {
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
+  const [isChatOpen, setIsChatOpen] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
@@ -28,8 +31,13 @@ export default function Home() {
     return () => clearTimeout(timer);
   }, []);
 
+  const handleOpenChat = () => {
+    setIsChatOpen(true);
+  };
+
   return (
     <SmoothScroll>
+      <CursorTrail />
       <Navigation onOpenCommandPalette={() => setIsCommandPaletteOpen(true)} />
       <CommandPalette
         isOpen={isCommandPaletteOpen}
@@ -41,7 +49,7 @@ export default function Home() {
         animate={{ opacity: isLoaded ? 1 : 0 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
       >
-        <Hero />
+        <Hero onOpenChat={handleOpenChat} />
         <About />
         <Experience />
         <Projects />
@@ -57,6 +65,11 @@ export default function Home() {
       >
         <Footer />
       </motion.div>
+
+      <Chatbot
+        externalOpen={isChatOpen}
+        onExternalOpenChange={setIsChatOpen}
+      />
     </SmoothScroll>
   );
 }

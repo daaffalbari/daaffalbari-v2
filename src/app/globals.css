@@ -245,6 +245,32 @@ h1, h2, h3, h4, h5, h6 {
   background-clip: text;
 }
 
+/* Animated Gradient Text */
+.gradient-text-animated {
+  background: linear-gradient(
+    90deg,
+    #22d3ee 0%,
+    #06b6d4 25%,
+    var(--accent) 50%,
+    #06b6d4 75%,
+    #22d3ee 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradient-text-shift 4s ease-in-out infinite;
+}
+
+@keyframes gradient-text-shift {
+  0%, 100% {
+    background-position: 0% center;
+  }
+  50% {
+    background-position: 100% center;
+  }
+}
+
 /* Glass Card */
 .glass-card {
   background: var(--glass-background);
@@ -776,3 +802,124 @@ h1, h2, h3, h4, h5, h6 {
 .chatbot-messages::-webkit-scrollbar-thumb:hover {
   background: var(--accent);
 }
+
+/* Page Transitions */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Section reveal animations */
+.section {
+  will-change: transform, opacity;
+}
+
+/* Smooth element transitions */
+.transition-smooth {
+  transition: all 0.6s cubic-bezier(0.25, 0.4, 0.25, 1);
+}
+
+/* Reveal on scroll utility classes */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.25, 0.4, 0.25, 1);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-30px);
+  transition: all 0.8s cubic-bezier(0.25, 0.4, 0.25, 1);
+}
+
+.reveal-left.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.reveal-right {
+  opacity: 0;
+  transform: translateX(30px);
+  transition: all 0.8s cubic-bezier(0.25, 0.4, 0.25, 1);
+}
+
+.reveal-right.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.95);
+  transition: all 0.8s cubic-bezier(0.25, 0.4, 0.25, 1);
+}
+
+.reveal-scale.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Pixel Art Styles */
+.pixel-art {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+.pixel-art * {
+  shape-rendering: crispEdges;
+}
+

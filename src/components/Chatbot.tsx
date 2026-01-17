@@ -68,8 +68,23 @@ const parseMessage = (content: string): string => {
   return parsed;
 };
 
-export function Chatbot() {
-  const [isOpen, setIsOpen] = useState(false);
+interface ChatbotProps {
+  externalOpen?: boolean;
+  onExternalOpenChange?: (open: boolean) => void;
+}
+
+export function Chatbot({ externalOpen, onExternalOpenChange }: ChatbotProps) {
+  const [internalOpen, setInternalOpen] = useState(false);
+
+  // Use external control if provided, otherwise use internal state
+  const isOpen = externalOpen !== undefined ? externalOpen : internalOpen;
+  const setIsOpen = (open: boolean) => {
+    if (onExternalOpenChange) {
+      onExternalOpenChange(open);
+    } else {
+      setInternalOpen(open);
+    }
+  };
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
