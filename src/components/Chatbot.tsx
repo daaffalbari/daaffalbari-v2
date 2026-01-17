@@ -22,10 +22,10 @@ interface Message {
 const STORAGE_KEY = "abel_chat_history";
 
 const suggestedQuestions = [
-  "Who is Daffa?",
-  "What are his skills?",
-  "Tell me about his projects",
-  "How can I contact him?",
+  "Tell me about Daffa!",
+  "What cool stuff does he build?",
+  "Any fun projects?",
+  "How can I reach him?",
 ];
 
 // Parse markdown-like formatting in messages
@@ -271,7 +271,7 @@ export function Chatbot({ externalOpen, onExternalOpenChange }: ChatbotProps) {
                     Abel
                   </h3>
                   <p className="text-[10px] text-[var(--foreground-muted)]">
-                    Daffa&apos;s AI Assistant
+                    Daffa&apos;s friendly AI buddy
                   </p>
                 </div>
               </div>
@@ -306,12 +306,12 @@ export function Chatbot({ externalOpen, onExternalOpenChange }: ChatbotProps) {
                     <Sparkles className="h-6 w-6 text-[var(--accent)]" />
                   </div>
                   <h4 className="mb-1.5 text-sm font-medium text-[var(--foreground)]">
-                    Hi, I&apos;m Abel!
+                    Hey! I&apos;m Abel 👋
                   </h4>
                   <p className="mb-4 text-xs leading-relaxed text-[var(--foreground-muted)]">
-                    I&apos;m here to help you learn about Daffa.
+                    I know all about Daffa — his projects, skills,
                     <br />
-                    Ask me about his projects, skills, or experience!
+                    and work. Ask me anything!
                   </p>
                   <div className="flex flex-wrap justify-center gap-1.5">
                     {suggestedQuestions.map((question) => (
@@ -385,7 +385,7 @@ export function Chatbot({ externalOpen, onExternalOpenChange }: ChatbotProps) {
                   type="text"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
-                  placeholder="Ask about Daffa..."
+                  placeholder="Ask me anything about Daffa..."
                   disabled={isLoading}
                   className="flex-1 rounded-full border border-[var(--card-border)] bg-[var(--background)] px-3 py-1.5 text-xs text-[var(--foreground)] placeholder-[var(--foreground-muted)] outline-none transition-colors focus:border-[var(--accent)]"
                   style={{ fontFamily: "var(--font-sans)" }}

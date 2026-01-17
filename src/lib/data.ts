@@ -6,8 +6,8 @@ export const personalInfo = {
   linkedin: "https://www.linkedin.com/in/daaffalbari/",
   github: "https://github.com/daaffalbari",
   location: "Indonesia",
-  bio: "Building intelligent systems at the intersection of AI and infrastructure. Specializing in LLM agents, RAG architectures, and scalable ML deployments.",
-  tagline: "Turning complex AI into elegant solutions",
+  bio: "I help teams build AI that actually works — not just in demos, but in the real world. Love making complex tech feel simple.",
+  tagline: "Making AI feel less like magic, more like a helpful friend",
 };
 
 export const experiences = [
@@ -19,12 +19,12 @@ export const experiences = [
     period: "Jan 2025 – Present",
     type: "current",
     highlights: [
-      "Built enterprise-grade internal LLM agent framework supporting 4+ model providers with native tool calling, RAG, MCP server, memory persistence, and multi-agent orchestration — reducing development time 5–10× versus LangChain and cutting memory usage by 70%",
-      "Cut infrastructure costs 75% by optimizing LLM observability with OpenTelemetry + Langfuse; built production-grade LLM serving layer on Kubernetes with automated CI/CD pipelines",
-      "Fine-tuned Qwen-image editing model for architectural design automation, reducing manual design iteration from hours to minutes",
-      "Designed and deployed AI agents for automated report and presentation generation, empowering teams to produce client-facing deliverables in minutes",
-      "Implemented Graph RAG architecture using Memgraph for government and defense sectors — reducing LLM hallucination to near-zero on structural queries",
-      "Architected AI-powered no-code app builder enabling mobile/web app generation via natural language",
+      "Built an LLM framework that our whole team now uses — supports multiple AI providers and just works out of the box (saved us months of dev time)",
+      "Made our AI infrastructure way cheaper (75% cost reduction) while keeping things reliable with proper observability",
+      "Trained a custom image model for architectural designs — what used to take hours now takes minutes",
+      "Created AI agents that write reports and presentations, so teams can focus on the actual work",
+      "Built a knowledge graph system for government clients where accuracy really matters — hallucination went down to basically zero",
+      "Working on a no-code app builder where you just describe what you want and it builds it",
     ],
     skills: ["LLM Agents", "RAG", "Kubernetes", "Langfuse", "Graph RAG", "MCP"],
   },
@@ -36,10 +36,10 @@ export const experiences = [
     period: "Jul 2021 – Oct 2024",
     type: "past",
     highlights: [
-      "Developed SociaLabs, a social media analytics platform integrating topic modeling, sentiment analysis, and Social Network Analysis with RAG-powered AI chatbot",
-      "Built Agrimate, an Android app for farmers with 95% accuracy crop disease detection and LLM-generated recommendations",
-      "Created MainChick, an AI-driven poultry management system with environmental correlation analysis and LLM chatbot",
-      "Automated end-to-end ML model deployment using Docker, FastAPI, Flask, AWS, and Google Cloud",
+      "Built SociaLabs — a social media analytics tool that actually makes sense of Twitter data with AI-powered insights",
+      "Made Agrimate, an app that helps farmers spot crop diseases with 95% accuracy (pretty proud of this one)",
+      "Created MainChick, a smart poultry management system — turns out chickens need data too!",
+      "Got really good at shipping ML models to production without breaking things",
     ],
     skills: ["Python", "TensorFlow", "Docker", "AWS", "GCP", "FastAPI"],
   },
@@ -51,10 +51,10 @@ export const experiences = [
     period: "Feb 2023 – Jul 2023",
     type: "past",
     highlights: [
-      "Selected as top candidate among 20,000+ applicants for the Machine Learning path in Indonesia's premier tech talent program",
-      "Built an Android application with personalized pet recommendations and CNN-powered breed recognition achieving 98% accuracy",
-      "Led cross-functional collaboration with Cloud and Mobile teams; containerized ML models with Docker and deployed on GCP",
-      "Earned TensorFlow Developer Certificate—validating production-level expertise in CV, CNN, NLP, and time-series forecasting",
+      "Got into this pretty competitive program (20k+ applicants) — felt lucky to learn from Google, Tokopedia, and Gojek folks",
+      "Built a pet adoption app that matches you with the right pet based on your lifestyle (the breed recognition hits 98%!)",
+      "Learned to work across teams and ship ML models that don't break in production",
+      "Got my TensorFlow certification — turns out I actually know what I'm doing 😅",
     ],
     skills: ["TensorFlow", "CNN", "Docker", "GCP", "Android"],
   },
@@ -65,9 +65,9 @@ export const projects = [
     id: 1,
     title: "Agrimate",
     description:
-      "A multiplatform app enabling smart farming through ML, AI, and IoT integration. Features disease detection (CNN), crop recommendations, market price predictions, and automated IoT-based watering systems.",
+      "An app that helps farmers take better care of their crops — just snap a photo and it tells you if something's wrong. Plus smart watering and price predictions!",
     longDescription:
-      "Agrimate enables total, accurate, and smart farming through the integration of Machine Learning, AI, and IoT for productivity, profitability, and food security. It assists farmers in applying for funding, working with an Aggregator to share post-harvest profits.",
+      "We built Agrimate because farming shouldn't require guesswork. Point your phone at a plant, get instant disease diagnosis. It even helps with funding applications and connects farmers with buyers. Pretty cool to see tech actually helping real people.",
     // preview: Card thumbnail (recommended: 800x600 for web, 400x800 for mobile)
     preview: "/images/project/agrimate/preview.png",
     // mockup: Full screenshot for phone/browser frame (recommended: 578x1263 for mobile, 1920x1080 for web)
@@ -90,9 +90,9 @@ export const projects = [
     id: 2,
     title: "MainChick",
     description:
-      "A comprehensive broiler management platform integrating real-time monitoring, ML, and AI. Features environmental tracking, disease detection, and an AI chatbot for expert poultry advice.",
+      "Think of it as a smart assistant for chicken farmers — monitors everything from temperature to early signs of disease, plus a chatbot that knows a lot about chickens.",
     longDescription:
-      "MainChick includes an advanced monitoring system for tracking barn conditions like temperature, humidity, and ammonia levels. Its machine learning algorithms provide early disease detection, identifying symptoms before outbreaks occur.",
+      "MainChick keeps an eye on barn conditions 24/7 and spots potential health issues before they become problems. The AI chatbot is surprisingly good at answering chicken-related questions (we trained it well!).",
     preview: "/images/project/mainchick/preview.png",
     mockup: "/images/project/mainchick/mockup.png",
     tags: ["Machine Learning", "IoT", "Chatbot", "Android"],
@@ -114,9 +114,9 @@ export const projects = [
     id: 3,
     title: "Peaky Blinder",
     description:
-      "An AI-powered app for diabetic retinopathy prediction using smartphone fundus photos. Features Azure Vision AI for disease detection and an LLM chatbot for real-time patient support.",
+      "Eye check-ups made accessible — just use your phone camera. The AI spots signs of diabetic eye problems early, and there's a friendly chatbot to answer your health questions.",
     longDescription:
-      "Peaky Blinder provides accurate and quick disease detection, enabling easy self-checks, reducing routine exam costs, and delivering real-time analysis. The app aims to manage diabetes effectively and prevent serious complications.",
+      "Not everyone can get to a specialist, so we brought the specialist to your phone. Quick, accurate eye scans that could catch problems before they get serious. The chatbot is there to help you understand what's going on.",
     preview: "/images/project/peaky_blinder/preview.png",
     mockup: "/images/project/peaky_blinder/mockup.png",
     tags: ["Azure Vision", "LLM", "Healthcare", "Android"],
@@ -137,9 +137,9 @@ export const projects = [
     id: 4,
     title: "OPet",
     description:
-      "A mobile app addressing animal abandonment through AI-powered pet adoption. Features personalized recommendations, CNN-based breed recognition, and real-time shelter location services.",
+      "Finding your perfect pet match — the app learns what kind of pet fits your life, shows you adorable adoptables nearby, and even identifies breeds from photos.",
     longDescription:
-      "OPet leverages machine learning for personalized pet recommendations based on user preferences and lifestyle. The app uses image recognition to help users identify and learn about different breeds, making it easier to find a suitable match.",
+      "Too many pets end up abandoned because people didn't pick the right one. OPet helps you find a pet that actually fits your lifestyle, not just the cutest face (though they're pretty cute). Snap a photo and it tells you the breed too!",
     preview: "/images/project/opet/preview.png",
     mockup: "/images/project/opet/mockup.png",
     tags: ["CNN", "Image Recognition", "Maps API", "Android"],
@@ -157,9 +157,9 @@ export const projects = [
     id: 5,
     title: "SociaLabs",
     description:
-      "A social media analytics platform for Twitter data analysis. Integrates topic modeling, sentiment analysis, Social Network Analysis, and an AI chatbot for data-driven insights.",
+      "Making sense of Twitter chaos — see what people are really talking about, how they feel about it, and who's influencing the conversation.",
     longDescription:
-      "With Socialabs, users can identify key themes being discussed, analyze user interactions, automatically respond through the chatbot, and understand public sentiment towards specific topics or brands.",
+      "Twitter is noisy, but there's gold in there if you know where to look. Socialabs finds the patterns, tracks the sentiment, and the AI chatbot helps you dig deeper. Great for brands who want to actually understand their audience.",
     preview: "/images/project/socialabs/preview.png",
     mockup: "/images/project/socialabs/mockup.png",
     tags: ["NLP", "SNA", "Sentiment Analysis", "RAG"],
@@ -278,9 +278,9 @@ export const education = {
 export const blogPosts = [
   {
     id: 1,
-    title: "Building Production-Ready LLM Agents: A Deep Dive",
+    title: "Building LLM Agents That Actually Work in Production",
     excerpt:
-      "Learn how to architect and deploy LLM agents that actually work in production environments with proper observability and error handling.",
+      "Lessons from building agents that don't break at 3 AM. Covers the boring-but-important stuff like observability and graceful failures.",
     date: "2025-01-10",
     readTime: "12 min read",
     tags: ["LLM", "Agents", "Production"],
@@ -289,9 +289,9 @@ export const blogPosts = [
   },
   {
     id: 2,
-    title: "Graph RAG: When Traditional RAG Isn't Enough",
+    title: "When Regular RAG Isn't Cutting It — Enter Graph RAG",
     excerpt:
-      "Exploring how knowledge graphs can dramatically improve RAG accuracy for complex, interconnected data domains.",
+      "Sometimes you need your AI to understand relationships, not just keywords. Here's how knowledge graphs can help.",
     date: "2024-12-15",
     readTime: "10 min read",
     tags: ["RAG", "Knowledge Graphs", "AI"],
@@ -300,9 +300,9 @@ export const blogPosts = [
   },
   {
     id: 3,
-    title: "From Notebooks to Kubernetes: ML Deployment Journey",
+    title: "Getting Your ML Model Out of Jupyter and Into the Real World",
     excerpt:
-      "A practical guide to taking your ML models from Jupyter notebooks to production-grade Kubernetes deployments.",
+      "A no-nonsense guide to deploying ML models. From 'it works on my machine' to 'it actually works in production.'",
     date: "2024-11-20",
     readTime: "15 min read",
     tags: ["Kubernetes", "MLOps", "Docker"],

@@ -46,7 +46,7 @@ export function Blog() {
           <span className="mb-4 inline-block font-mono text-sm text-[var(--accent)]">
             Blog
           </span>
-          <h2 className="section-title">Thoughts & Insights</h2>
+          <h2 className="section-title">Random Thoughts &amp; Learnings</h2>
         </motion.div>
 
         {/* Loading State */}
@@ -82,9 +82,9 @@ export function Blog() {
             className="flex flex-col items-center justify-center rounded-xl border border-[var(--card-border)] bg-[var(--card)] p-12 text-center"
           >
             <Rss className="mb-4 h-12 w-12 text-[var(--foreground-muted)]" />
-            <h3 className="mb-2 text-lg font-semibold">No posts yet</h3>
+            <h3 className="mb-2 text-lg font-semibold">Nothing here yet!</h3>
             <p className="text-sm text-[var(--foreground-muted)]">
-              Check back soon for new content!
+              I&apos;m writing some stuff, check back soon 😄
             </p>
           </motion.div>
         ) : (
@@ -172,7 +172,7 @@ export function Blog() {
             className="inline-flex items-center gap-2 text-sm text-[var(--foreground-muted)] transition-colors hover:text-[var(--foreground)]"
           >
             <Rss className="h-4 w-4" />
-            View all posts on Medium
+            More posts on Medium
             <ArrowUpRight className="h-3 w-3" />
           </a>
         </motion.div>

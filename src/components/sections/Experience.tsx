@@ -23,7 +23,7 @@ export function Experience() {
           <span className="mb-4 inline-block font-mono text-sm text-[var(--accent)]">
             Experience
           </span>
-          <h2 className="section-title">Where I've Worked</h2>
+          <h2 className="section-title">My Journey So Far</h2>
         </motion.div>
 
         {/* Timeline */}

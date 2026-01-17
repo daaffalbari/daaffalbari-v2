@@ -51,9 +51,9 @@ export function Projects() {
           <span className="mb-4 inline-block font-mono text-sm text-[var(--accent)]">
             Projects
           </span>
-          <h2 className="section-title">Things I&apos;ve Built</h2>
+          <h2 className="section-title">Stuff I&apos;ve Built</h2>
           <p className="mt-4 max-w-lg text-[var(--foreground-muted)]">
-            Award-winning projects in AI, ML, and mobile development
+            Cool things I&apos;ve worked on — some won awards, all taught me something
           </p>
         </motion.div>
 
@@ -267,7 +267,7 @@ export function Projects() {
             transition={{ duration: 0.5, delay: 0.2 }}
           >
             <h3 className="mb-6 text-lg font-medium text-[var(--foreground-muted)]">
-              More Projects
+              Other Fun Projects
             </h3>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {otherProjects.map((project, index) => (
@@ -330,7 +330,7 @@ export function Projects() {
             className="inline-flex items-center gap-2 text-sm text-[var(--foreground-muted)] transition-colors hover:text-[var(--foreground)]"
           >
             <Github className="h-4 w-4" />
-            View more on GitHub
+            More on my GitHub
             <ArrowUpRight className="h-3 w-3" />
           </a>
         </motion.div>

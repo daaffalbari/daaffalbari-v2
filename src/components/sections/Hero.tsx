@@ -13,10 +13,10 @@ const roles = ["AI Engineer", "LLM Specialist", "ML Engineer"];
 
 function getGreeting(): string {
   const hour = new Date().getHours();
-  if (hour >= 5 && hour < 12) return "Good morning";
-  if (hour >= 12 && hour < 17) return "Good afternoon";
+  if (hour >= 5 && hour < 12) return "Morning";
+  if (hour >= 12 && hour < 17) return "Hey there";
   if (hour >= 17 && hour < 21) return "Good evening";
-  return "Hello night owl";
+  return "Hey, night owl";
 }
 
 interface HeroProps {
@@ -200,7 +200,7 @@ export function Hero({ onOpenChat }: HeroProps) {
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-[var(--accent-green)]"></span>
               </span>
               <span className="text-sm text-[var(--accent-green)]">
-                Open for creative collaborations
+                Always happy to chat about cool ideas
               </span>
             </motion.div>
 
@@ -227,8 +227,8 @@ export function Hero({ onOpenChat }: HeroProps) {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.98 }}
               >
-                Let&apos;s Chat
-                <span>💬</span>
+                Say Hi
+                <span>👋</span>
               </motion.a>
 
               <motion.a
@@ -237,7 +237,7 @@ export function Hero({ onOpenChat }: HeroProps) {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.98 }}
               >
-                See My Work
+                Check Out My Stuff
                 <span>✨</span>
               </motion.a>
             </motion.div>

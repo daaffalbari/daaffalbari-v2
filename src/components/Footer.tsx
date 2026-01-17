@@ -41,9 +41,9 @@ export function Footer() {
 
           {/* Bottom */}
           <div className="flex flex-col items-center gap-1 text-xs text-[var(--foreground-muted)]">
-            <p>© {currentYear} All rights reserved</p>
+            <p>© {currentYear} — Thanks for stopping by!</p>
             <p className="flex items-center gap-1">
-              Built with <Heart className="h-3 w-3 fill-[var(--accent)] text-[var(--accent)]" /> in Indonesia
+              Made with <Heart className="h-3 w-3 fill-[var(--accent)] text-[var(--accent)]" /> in Indonesia
             </p>
           </div>
         </div>

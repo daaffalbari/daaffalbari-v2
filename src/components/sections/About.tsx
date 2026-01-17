@@ -55,7 +55,7 @@ export function About() {
             About
           </span>
           <h2 className="section-title">
-            Building with Intelligence
+            A Bit About Me
           </h2>
         </motion.div>
 
@@ -98,12 +98,12 @@ export function About() {
           >
             <div className="space-y-4 text-[var(--foreground-muted)]">
               <p className="text-lg leading-relaxed text-[var(--foreground)]">
-                I'm an AI Engineer focused on building intelligent systems that work in production.
+                I&apos;m the kind of person who gets excited when AI actually works in the real world, not just in demos.
               </p>
               <p className="leading-relaxed">
-                Currently at PT. Indonesia Indicator, I architect enterprise-grade LLM frameworks,
-                implement Graph RAG systems, and build AI-powered platforms. My work has reduced
-                development time by 5-10× and cut infrastructure costs by 75%.
+                Right now at Indonesia Indicator, I&apos;m building tools that help our team ship AI faster. 
+                Things like LLM frameworks, knowledge graphs, and AI assistants that actually save people time.
+                The best part? When something I built makes a colleague&apos;s job easier.
               </p>
             </div>
 
@@ -111,15 +111,15 @@ export function About() {
             <div className="mt-6 grid grid-cols-3 gap-4 border-t border-[var(--card-border)] pt-6">
               <div>
                 <div className="text-2xl font-bold text-[var(--accent)]">5-10×</div>
-                <div className="text-xs text-[var(--foreground-muted)]">Dev Speed</div>
+                <div className="text-xs text-[var(--foreground-muted)]">Faster Shipping</div>
               </div>
               <div>
                 <div className="text-2xl font-bold text-[var(--foreground)]">75%</div>
-                <div className="text-xs text-[var(--foreground-muted)]">Cost Reduction</div>
+                <div className="text-xs text-[var(--foreground-muted)]">Less Spending</div>
               </div>
               <div>
                 <div className="text-2xl font-bold text-[var(--foreground)]">~0</div>
-                <div className="text-xs text-[var(--foreground-muted)]">Hallucination</div>
+                <div className="text-xs text-[var(--foreground-muted)]">AI Hallucinations</div>
               </div>
             </div>
           </motion.div>
@@ -133,9 +133,9 @@ export function About() {
               <MapPin className="h-4 w-4" />
               <span className="text-sm">Based in</span>
             </div>
-            <h3 className="mt-2 text-xl font-semibold">Indonesia</h3>
+            <h3 className="mt-2 text-xl font-semibold">Indonesia 🇮🇩</h3>
             <p className="mt-1 text-sm text-[var(--foreground-muted)]">
-              Open to remote
+              Remote-friendly
             </p>
           </motion.div>
 

@@ -63,9 +63,9 @@ export function Contact() {
           <span className="mb-4 inline-block font-mono text-sm text-[var(--accent)]">
             Contact
           </span>
-          <h2 className="section-title">Let's Connect</h2>
+          <h2 className="section-title">Let&apos;s Grab a Virtual Coffee</h2>
           <p className="mt-4 max-w-lg text-[var(--foreground-muted)]">
-            Have a project in mind? Let's talk about how we can work together.
+            Got an idea? Want to collaborate? Or just want to say hi? I&apos;d love to hear from you.
           </p>
         </motion.div>
 
@@ -104,7 +104,7 @@ export function Contact() {
             {/* Social Links */}
             <div>
               <div className="mb-3 text-sm text-[var(--foreground-muted)]">
-                Find me on
+                Catch me on
               </div>
               <div className="flex gap-2">
                 {socialLinks.map((link) => {
@@ -143,9 +143,9 @@ export function Contact() {
                   <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-[var(--accent-green)]/10">
                     <CheckCircle className="h-6 w-6 text-[var(--accent-green)]" />
                   </div>
-                  <h3 className="mb-2 font-semibold">Message Sent!</h3>
+                  <h3 className="mb-2 font-semibold">Got it! 🎉</h3>
                   <p className="text-sm text-[var(--foreground-muted)]">
-                    I'll get back to you soon.
+                    I&apos;ll get back to you soon, promise!
                   </p>
                 </div>
               ) : (
@@ -161,7 +161,7 @@ export function Contact() {
                         name="name"
                         required
                         className="form-input"
-                        placeholder="John Doe"
+                        placeholder="Your name"
                       />
                     </div>
                     <div>
@@ -174,7 +174,7 @@ export function Contact() {
                         name="email"
                         required
                         className="form-input"
-                        placeholder="john@example.com"
+                        placeholder="you@example.com"
                       />
                     </div>
                   </div>
@@ -189,7 +189,7 @@ export function Contact() {
                       name="subject"
                       required
                       className="form-input"
-                      placeholder="Project Inquiry"
+                      placeholder="What's on your mind?"
                     />
                   </div>
 
@@ -203,7 +203,7 @@ export function Contact() {
                       required
                       rows={4}
                       className="form-input resize-none"
-                      placeholder="Tell me about your project..."
+                      placeholder="Tell me about it! I read every message :)"
                     />
                   </div>
 
@@ -220,7 +220,7 @@ export function Contact() {
                     ) : (
                       <>
                         <Send className="h-4 w-4" />
-                        Send Message
+                        Send It!
                       </>
                     )}
                   </button>

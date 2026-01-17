@@ -38,7 +38,7 @@ export function Achievements() {
           <span className="mb-4 inline-block font-mono text-sm text-[var(--accent)]">
             Achievements
           </span>
-          <h2 className="section-title">Recognition & Awards</h2>
+          <h2 className="section-title">Some Nice Wins Along the Way</h2>
         </motion.div>
 
         {/* Achievements Grid */}
@@ -84,7 +84,7 @@ export function Achievements() {
           <div className="text-center">
             <div className="text-2xl font-bold text-[var(--accent)]">2×</div>
             <div className="text-xs text-[var(--foreground-muted)]">
-              Google Global Finalist
+              Google Challenge Finalist
             </div>
           </div>
           <div className="text-center">
@@ -96,7 +96,7 @@ export function Achievements() {
           <div className="text-center">
             <div className="text-2xl font-bold text-[var(--foreground)]">6+</div>
             <div className="text-xs text-[var(--foreground-muted)]">
-              Competition Awards
+              Competition Trophies
             </div>
           </div>
           <div className="text-center">
