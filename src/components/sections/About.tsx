@@ -69,17 +69,19 @@ export function About() {
           {/* Profile Image Card */}
           <motion.div
             variants={itemVariants}
-            className="bento-item relative overflow-hidden md:col-span-4 md:row-span-2"
+            className="bento-item relative min-h-[400px] overflow-hidden md:col-span-4 md:row-span-2 md:min-h-0"
           >
             <div className="absolute inset-0">
               <Image
                 src="/images/profile/daffa.jpg"
                 alt={personalInfo.name}
                 fill
-                className="object-cover"
+                className="object-cover object-top"
+                sizes="(max-width: 768px) 100vw, 33vw"
+                priority
               />
               {/* Gradient Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[var(--card)] via-[var(--card)]/50 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[var(--card)] via-[var(--card)]/30 to-transparent" />
             </div>
             <div className="relative mt-auto flex h-full flex-col justify-end">
               <h3 className="text-xl font-semibold">{personalInfo.name}</h3>
