@@ -63,69 +63,114 @@ export const experiences = [
 export const projects = [
   {
     id: 1,
-    title: "Enterprise LLM Agent Framework",
+    title: "Agrimate",
     description:
-      "Internal framework supporting 4+ model providers with tool calling, RAG, MCP, and multi-agent orchestration. Achieved 5-10× faster development and 70% memory reduction.",
-    image: "/projects/llm-framework.jpg",
-    tags: ["Python", "OpenAI SDK", "Kubernetes", "Langfuse"],
-    impact: "5-10× faster development",
-    category: "AI/LLM",
+      "A multiplatform app enabling smart farming through ML, AI, and IoT integration. Features disease detection (CNN), crop recommendations, market price predictions, and automated IoT-based watering systems.",
+    longDescription:
+      "Agrimate enables total, accurate, and smart farming through the integration of Machine Learning, AI, and IoT for productivity, profitability, and food security. It assists farmers in applying for funding, working with an Aggregator to share post-harvest profits.",
+    // preview: Card thumbnail (recommended: 800x600 for web, 400x800 for mobile)
+    preview: "/images/project/agrimate/preview.png",
+    // mockup: Full screenshot for phone/browser frame (recommended: 578x1263 for mobile, 1920x1080 for web)
+    mockup: "/images/project/agrimate/mockup.png",
+    tags: ["CNN", "TensorFlow", "IoT", "Android", "LLM"],
+    achievements: [
+      "Top 20 International Microsoft Imagine Cup 2024",
+      "Merit Awards APICTA Hong Kong",
+      "PKM Funding 2024",
+    ],
+    role: "ML/AI Engineer",
+    category: "Mobile/ML",
+    type: "mobile",
     featured: true,
+    links: {
+      video: "https://www.youtube.com/watch?v=rNzA4hNCjNk",
+    },
   },
   {
     id: 2,
-    title: "Graph RAG for Government",
+    title: "MainChick",
     description:
-      "Knowledge graph architecture using Memgraph for defense sector queries. Structures organizational hierarchies into queryable knowledge graphs with near-zero hallucination.",
-    image: "/projects/graph-rag.jpg",
-    tags: ["Memgraph", "RAG", "Knowledge Graphs", "Python"],
-    impact: "Near-zero hallucination",
-    category: "AI/LLM",
+      "A comprehensive broiler management platform integrating real-time monitoring, ML, and AI. Features environmental tracking, disease detection, and an AI chatbot for expert poultry advice.",
+    longDescription:
+      "MainChick includes an advanced monitoring system for tracking barn conditions like temperature, humidity, and ammonia levels. Its machine learning algorithms provide early disease detection, identifying symptoms before outbreaks occur.",
+    preview: "/images/project/mainchick/preview.png",
+    mockup: "/images/project/mainchick/mockup.png",
+    tags: ["Machine Learning", "IoT", "Chatbot", "Android"],
+    achievements: [
+      "Finalist Google Solution Challenge 2024",
+      "Finalist International Imagine Cup 2023",
+      "Top 2 Astranauts 2023",
+    ],
+    role: "AI/ML Engineer",
+    category: "Mobile/ML",
+    type: "mobile",
     featured: true,
+    links: {
+      live: "https://mainchick.unikomcodelabs.id/",
+      github: "https://github.com/daaffalbari/mainchick-mobile",
+    },
   },
   {
     id: 3,
-    title: "AI Architectural Design System",
+    title: "Peaky Blinder",
     description:
-      "Fine-tuned Qwen image editing model for automated home visualizations. Reduced design iterations from hours to minutes.",
-    image: "/projects/ai-design.jpg",
-    tags: ["Qwen", "Fine-tuning", "Computer Vision", "Production ML"],
-    impact: "Hours → Minutes",
-    category: "Computer Vision",
+      "An AI-powered app for diabetic retinopathy prediction using smartphone fundus photos. Features Azure Vision AI for disease detection and an LLM chatbot for real-time patient support.",
+    longDescription:
+      "Peaky Blinder provides accurate and quick disease detection, enabling easy self-checks, reducing routine exam costs, and delivering real-time analysis. The app aims to manage diabetes effectively and prevent serious complications.",
+    preview: "/images/project/peaky_blinder/preview.png",
+    mockup: "/images/project/peaky_blinder/mockup.png",
+    tags: ["Azure Vision", "LLM", "Healthcare", "Android"],
+    achievements: [
+      "Runner up AI Innovation Compfest 2024",
+      "Audience Award Compfest 2024",
+      "Finalist Gemastik 2024",
+    ],
+    role: "AI/ML Engineer",
+    category: "Healthcare",
+    type: "mobile",
     featured: true,
+    links: {
+      github: "https://github.com/orgs/OpenEye-team/dashboard",
+    },
   },
   {
     id: 4,
-    title: "No-Code AI App Builder",
+    title: "OPet",
     description:
-      "Natural language to mobile/web app generation platform with prompt-driven design, tool orchestration, and secure sandboxed execution.",
-    image: "/projects/no-code.jpg",
-    tags: ["LLM Agents", "Sandboxed Execution", "React", "Node.js"],
-    impact: "Inspired by Replit/Lovable",
-    category: "AI/LLM",
+      "A mobile app addressing animal abandonment through AI-powered pet adoption. Features personalized recommendations, CNN-based breed recognition, and real-time shelter location services.",
+    longDescription:
+      "OPet leverages machine learning for personalized pet recommendations based on user preferences and lifestyle. The app uses image recognition to help users identify and learn about different breeds, making it easier to find a suitable match.",
+    preview: "/images/project/opet/preview.png",
+    mockup: "/images/project/opet/mockup.png",
+    tags: ["CNN", "Image Recognition", "Maps API", "Android"],
+    achievements: [],
+    role: "Machine Learning Engineer",
+    category: "Mobile/ML",
+    type: "mobile",
     featured: false,
+    links: {
+      video: "https://www.youtube.com/watch?v=cgZ7gm1bPlM",
+      github: "https://github.com/orgs/C23-PS008/dashboard",
+    },
   },
   {
     id: 5,
-    title: "Agrimate",
-    description:
-      "Android app empowering farmers with deep learning-based crop disease detection (95% accuracy), commodity price forecasting, and LLM-generated recommendations.",
-    image: "/projects/agrimate.jpg",
-    tags: ["Deep Learning", "Android", "GCP", "TensorFlow"],
-    impact: "95% accuracy",
-    category: "Mobile/ML",
-    featured: false,
-  },
-  {
-    id: 6,
     title: "SociaLabs",
     description:
-      "Social media analytics platform with topic modeling, sentiment analysis, Social Network Analysis, and RAG-powered AI chatbot for contextual responses.",
-    image: "/projects/socialabs.jpg",
-    tags: ["NLP", "RAG", "Network Analysis", "Python"],
-    impact: "Full-stack analytics",
+      "A social media analytics platform for Twitter data analysis. Integrates topic modeling, sentiment analysis, Social Network Analysis, and an AI chatbot for data-driven insights.",
+    longDescription:
+      "With Socialabs, users can identify key themes being discussed, analyze user interactions, automatically respond through the chatbot, and understand public sentiment towards specific topics or brands.",
+    preview: "/images/project/socialabs/preview.png",
+    mockup: "/images/project/socialabs/mockup.png",
+    tags: ["NLP", "SNA", "Sentiment Analysis", "RAG"],
+    achievements: ["APICTA 2024 at Brunei"],
+    role: "AI Engineer",
     category: "Data Science",
+    type: "web",
     featured: false,
+    links: {
+      live: "http://socialabs.me/",
+    },
   },
 ];
 
