@@ -1,6 +1,46 @@
 @import "tailwindcss";
 
+/* Custom Fonts */
+@font-face {
+  font-family: 'GT America Mono';
+  src: url('/fonts/GTAmericaMono-Regular.woff2') format('woff2'),
+       url('/fonts/GTAmericaMono-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Caraque';
+  src: url('/fonts/Caraque-Regular.woff2') format('woff2'),
+       url('/fonts/Caraque-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Caraque';
+  src: url('/fonts/Caraque-Medium.woff2') format('woff2'),
+       url('/fonts/Caraque-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Caraque';
+  src: url('/fonts/Caraque-Bold.woff2') format('woff2'),
+       url('/fonts/Caraque-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
+  /* Font families */
+  --font-sans: 'Caraque', var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  --font-mono: 'GT America Mono', var(--font-geist-mono), ui-monospace, monospace;
   /* Minimal Dark Theme */
   --background: #09090b;
   --background-secondary: #0c0c0e;
@@ -131,7 +171,7 @@ html.lenis body {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  font-family: var(--font-sans);
   min-height: 100vh;
   overflow-x: hidden;
   transition: background-color 0.3s ease, color 0.3s ease;
@@ -710,4 +750,29 @@ h1, h2, h3, h4, h5, h6 {
 
 [data-theme="light"] .project-card-overlay {
   background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.85) 100%);
+}
+
+/* Chatbot Styles */
+.chatbot-messages {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+.chatbot-messages::-webkit-scrollbar {
+  width: 4px;
+}
+
+.chatbot-messages::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.chatbot-messages::-webkit-scrollbar-thumb {
+  background: var(--card-border);
+  border-radius: 2px;
+}
+
+.chatbot-messages::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
 }
