@@ -6,7 +6,7 @@ export const personalInfo = {
   linkedin: "https://www.linkedin.com/in/daaffalbari/",
   github: "https://github.com/daaffalbari",
   location: "Indonesia",
-  bio: "I help teams build AI that actually works — not just in demos, but in the real world. Love making complex tech feel simple.",
+  bio: "I help teams build AI that actually works — not just in demos, but in the real world. Love to solve real-world problems with AI.",
   tagline: "Making AI feel less like magic, more like a helpful friend",
 };
 
@@ -68,9 +68,7 @@ export const projects = [
       "An app that helps farmers take better care of their crops — just snap a photo and it tells you if something's wrong. Plus smart watering and price predictions!",
     longDescription:
       "We built Agrimate because farming shouldn't require guesswork. Point your phone at a plant, get instant disease diagnosis. It even helps with funding applications and connects farmers with buyers. Pretty cool to see tech actually helping real people.",
-    // preview: Card thumbnail (recommended: 800x600 for web, 400x800 for mobile)
     preview: "/images/project/agrimate/preview.png",
-    // mockup: Full screenshot for phone/browser frame (recommended: 578x1263 for mobile, 1920x1080 for web)
     mockup: "/images/project/agrimate/mockup.png",
     tags: ["CNN", "TensorFlow", "IoT", "Android", "LLM"],
     achievements: [
@@ -83,7 +81,8 @@ export const projects = [
     type: "mobile",
     featured: true,
     links: {
-      video: "https://www.youtube.com/watch?v=rNzA4hNCjNk",
+      live: "https://agrimate.unikomcodelabs.id/",
+      video: "https://youtu.be/DfnkvKKGn7w",
     },
   },
   {
@@ -107,6 +106,7 @@ export const projects = [
     featured: true,
     links: {
       live: "https://mainchick.unikomcodelabs.id/",
+      video: "https://www.youtube.com/watch?v=rNzA4hNCjNk",
       github: "https://github.com/daaffalbari/mainchick-mobile",
     },
   },
