@@ -343,16 +343,18 @@ export function Projects() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-[var(--background)]/80 p-4 backdrop-blur-sm"
+            className="fixed inset-0 z-50 overflow-y-auto bg-[var(--background)]/80 backdrop-blur-sm"
             onClick={() => setSelectedProject(null)}
           >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              onClick={(e) => e.stopPropagation()}
-              className="relative max-h-[90vh] w-full max-w-4xl overflow-auto rounded-2xl border border-[var(--card-border)] bg-[var(--card)] shadow-2xl"
-            >
+            {/* Centering wrapper */}
+            <div className="flex min-h-full items-center justify-center p-4">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                onClick={(e) => e.stopPropagation()}
+                className="relative w-full max-w-4xl overflow-hidden rounded-2xl border border-[var(--card-border)] bg-[var(--card)] shadow-2xl"
+              >
               {/* Close Button */}
               <button
                 onClick={() => setSelectedProject(null)}
@@ -497,6 +499,7 @@ export function Projects() {
                 </div>
               </div>
             </motion.div>
+          </div>
           </motion.div>
         )}
       </AnimatePresence>

@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Github, Linkedin, Mail } from "lucide-react";
-import { NeuralNetwork } from "@/components/NeuralNetwork";
 import { PixelPet } from "@/components/PixelPet";
 import { ProfileAvatar } from "@/components/ProfileAvatar";
 import { ThemeDecoration } from "@/components/ThemeDecoration";

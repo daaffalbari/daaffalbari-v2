@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
+import Link from "next/link";
 import { motion, useInView } from "framer-motion";
 import { Calendar, Clock, ArrowUpRight, Rss } from "lucide-react";
 import {
@@ -98,10 +99,8 @@ export function Blog() {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="group"
               >
-                <a
-                  href={post.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <Link
+                  href={`/blog/${post.slug}`}
                   className="block h-full"
                 >
                   <div className="flex h-full flex-col rounded-xl border border-[var(--card-border)] bg-[var(--card)] p-5 transition-colors hover:border-[var(--card-border-hover)]">
@@ -148,11 +147,11 @@ export function Blog() {
                       </span>
                       <span className="flex items-center gap-1">
                         <Clock className="h-3 w-3" />
-                        {calculateReadTime(post.description)}
+                        {calculateReadTime(post.content || post.description)}
                       </span>
                     </div>
                   </div>
-                </a>
+                </Link>
               </motion.article>
             ))}
           </div>

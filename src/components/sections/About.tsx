@@ -98,12 +98,12 @@ export function About() {
           >
             <div className="space-y-4 text-[var(--foreground-muted)]">
               <p className="text-lg leading-relaxed text-[var(--foreground)]">
-                I&apos;m the kind of person who gets excited when AI actually works in the real world, not just in demos.
+                I love building things that work — whether it&apos;s AI that actually performs in production, or web and mobile apps that people enjoy using.
               </p>
               <p className="leading-relaxed">
-                Right now at Indonesia Indicator, I&apos;m building tools that help our team ship AI faster. 
-                Things like LLM frameworks, knowledge graphs, and AI assistants that actually save people time.
-                The best part? When something I built makes a colleague&apos;s job easier.
+                Right now at Indonesia Indicator, I&apos;m crafting LLM frameworks, knowledge graphs, and AI tools that save people time.
+                But I&apos;m just as happy shipping a clean React app or a smooth mobile experience.
+                The best part? When something I built makes someone&apos;s day easier.
               </p>
             </div>
 
