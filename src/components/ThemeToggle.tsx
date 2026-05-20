@@ -1,11 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
 import { Sun, Moon } from "lucide-react";
 
 export function ThemeToggle() {
-  const [theme, setTheme] = useState<"light" | "dark">("dark");
+  const [theme, setTheme] = useState<"light" | "dark">("light");
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -23,38 +22,27 @@ export function ThemeToggle() {
   }, []);
 
   const toggleTheme = () => {
-    const newTheme = theme === "dark" ? "light" : "dark";
-    setTheme(newTheme);
-    localStorage.setItem("theme", newTheme);
-    document.documentElement.setAttribute("data-theme", newTheme);
+    const next = theme === "dark" ? "light" : "dark";
+    setTheme(next);
+    localStorage.setItem("theme", next);
+    document.documentElement.setAttribute("data-theme", next);
   };
 
   if (!mounted) {
-    return (
-      <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-[var(--card-border)]">
-        <div className="h-4 w-4" />
-      </div>
-    );
+    return <div aria-hidden className="h-9 w-9" />;
   }
 
   return (
-    <motion.button
+    <button
       onClick={toggleTheme}
-      className="flex h-9 w-9 items-center justify-center rounded-lg border border-[var(--card-border)] text-[var(--foreground-muted)] transition-colors hover:border-[var(--card-border-hover)] hover:text-[var(--foreground)]"
-      whileTap={{ scale: 0.95 }}
       aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+      className="inline-flex h-9 w-9 items-center justify-center text-[var(--color-ink-3)] transition-colors hover:text-[var(--color-ink)]"
     >
-      <motion.div
-        initial={false}
-        animate={{ rotate: theme === "dark" ? 0 : 180 }}
-        transition={{ duration: 0.3, ease: "easeInOut" }}
-      >
-        {theme === "dark" ? (
-          <Sun className="h-4 w-4" />
-        ) : (
-          <Moon className="h-4 w-4" />
-        )}
-      </motion.div>
-    </motion.button>
+      {theme === "dark" ? (
+        <Sun className="h-4 w-4" strokeWidth={1.5} />
+      ) : (
+        <Moon className="h-4 w-4" strokeWidth={1.5} />
+      )}
+    </button>
   );
 }

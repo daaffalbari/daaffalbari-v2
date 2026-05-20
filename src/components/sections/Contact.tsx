@@ -2,234 +2,184 @@
 
 import { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
-import {
-  Mail,
-  MapPin,
-  Phone,
-  Send,
-  Github,
-  Linkedin,
-  CheckCircle,
-  Loader2,
-} from "lucide-react";
 import { personalInfo, socialLinks } from "@/lib/data";
+
+type Status = "idle" | "sending" | "sent" | "error";
 
 export function Contact() {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const isInView = useInView(ref, { once: true, margin: "-80px" });
+  const [status, setStatus] = useState<Status>("idle");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-    setTimeout(() => setIsSubmitted(false), 3000);
+    setStatus("sending");
+    try {
+      await new Promise((r) => setTimeout(r, 900));
+      setStatus("sent");
+      setTimeout(() => setStatus("idle"), 4000);
+    } catch {
+      setStatus("error");
+    }
   };
 
-  const contactMethods = [
-    {
-      icon: Mail,
-      label: "Email",
-      value: personalInfo.email,
-      href: `mailto:${personalInfo.email}`,
-    },
-    {
-      icon: Phone,
-      label: "Phone",
-      value: personalInfo.phone,
-      href: `tel:${personalInfo.phone.replace(/\s/g, "")}`,
-    },
-    {
-      icon: MapPin,
-      label: "Location",
-      value: "Indonesia",
-      href: "#",
-    },
-  ];
-
   return (
-    <section id="contact" className="section" ref={ref}>
-      <div className="container relative">
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5 }}
-          className="mb-12"
+    <section id="contact" ref={ref} className="chapter">
+      <div className="page">
+        <motion.header
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="chapter-head"
         >
-          <span className="mb-4 inline-block font-mono text-sm text-[var(--accent)]">
-            Contact
-          </span>
-          <h2 className="section-title">Let&apos;s Grab a Virtual Coffee</h2>
-          <p className="mt-4 max-w-lg text-[var(--foreground-muted)]">
-            Got an idea? Want to collaborate? Or just want to say hi? I&apos;d love to hear from you.
-          </p>
-        </motion.div>
+          <span className="chapter-head__num">№ 07 · Get in touch</span>
+          <h2 className="chapter-head__title">
+            Write to me — I read everything.
+          </h2>
+        </motion.header>
 
-        <div className="grid gap-8 lg:grid-cols-5">
-          {/* Contact Info */}
+        <div className="grid gap-[var(--space-2xl)] md:grid-cols-12">
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="lg:col-span-2"
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : {}}
+            transition={{ duration: 0.6, delay: 0.06, ease: [0.16, 1, 0.3, 1] }}
+            className="md:col-span-5"
           >
-            {/* Contact Methods */}
-            <div className="mb-8 space-y-3">
-              {contactMethods.map((method) => {
-                const Icon = method.icon;
-                return (
-                  <a
-                    key={method.label}
-                    href={method.href}
-                    className="flex items-center gap-4 rounded-lg border border-[var(--card-border)] bg-[var(--card)] p-4 transition-colors hover:border-[var(--card-border-hover)]"
-                  >
-                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[var(--accent)]/10">
-                      <Icon className="h-4 w-4 text-[var(--accent)]" />
-                    </div>
-                    <div>
-                      <div className="text-xs text-[var(--foreground-muted)]">
-                        {method.label}
-                      </div>
-                      <div className="text-sm font-medium">{method.value}</div>
-                    </div>
-                  </a>
-                );
-              })}
-            </div>
+            <p className="lede max-w-[var(--measure-narrow)]">
+              I&apos;m up for full-time roles, contract work, advisory, or a
+              good long conversation about where AI is going wrong. Email is the
+              fastest path.
+            </p>
 
-            {/* Social Links */}
-            <div>
-              <div className="mb-3 text-sm text-[var(--foreground-muted)]">
-                Catch me on
+            <dl className="mt-[var(--space-xl)] space-y-[var(--space-lg)]">
+              <div>
+                <dt className="eyebrow">Email</dt>
+                <dd className="mt-[var(--space-2xs)]">
+                  <a
+                    href={`mailto:${personalInfo.email}`}
+                    className="lnk font-[var(--font-display)] text-xl"
+                  >
+                    {personalInfo.email}
+                  </a>
+                </dd>
               </div>
-              <div className="flex gap-2">
-                {socialLinks.map((link) => {
-                  const Icon =
-                    link.icon === "github"
-                      ? Github
-                      : link.icon === "linkedin"
-                        ? Linkedin
-                        : Mail;
-                  return (
+              <div>
+                <dt className="eyebrow">Phone</dt>
+                <dd className="mt-[var(--space-2xs)] font-[var(--font-display)] text-xl text-[var(--color-ink)]">
+                  {personalInfo.phone}
+                </dd>
+              </div>
+              <div>
+                <dt className="eyebrow">Based</dt>
+                <dd className="mt-[var(--space-2xs)] font-[var(--font-display)] text-xl text-[var(--color-ink)]">
+                  {personalInfo.location}
+                </dd>
+              </div>
+              <div>
+                <dt className="eyebrow">Elsewhere</dt>
+                <dd className="mt-[var(--space-2xs)] flex flex-wrap gap-x-[var(--space-md)] gap-y-[var(--space-2xs)]">
+                  {socialLinks.map((link) => (
                     <a
                       key={link.name}
                       href={link.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex h-10 w-10 items-center justify-center rounded-lg border border-[var(--card-border)] text-[var(--foreground-muted)] transition-colors hover:border-[var(--card-border-hover)] hover:text-[var(--foreground)]"
+                      className="lnk font-[var(--font-mono)] text-xs uppercase tracking-[0.08em]"
                     >
-                      <Icon className="h-4 w-4" />
+                      {link.name} →
                     </a>
-                  );
-                })}
+                  ))}
+                </dd>
               </div>
-            </div>
+            </dl>
           </motion.div>
 
-          {/* Contact Form */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="lg:col-span-3"
+          <motion.form
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : {}}
+            transition={{ duration: 0.6, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
+            onSubmit={handleSubmit}
+            className="md:col-span-7"
           >
-            <div className="rounded-xl border border-[var(--card-border)] bg-[var(--card)] p-6">
-              {isSubmitted ? (
-                <div className="flex flex-col items-center justify-center py-12 text-center">
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-[var(--accent-green)]/10">
-                    <CheckCircle className="h-6 w-6 text-[var(--accent-green)]" />
-                  </div>
-                  <h3 className="mb-2 font-semibold">Got it! 🎉</h3>
-                  <p className="text-sm text-[var(--foreground-muted)]">
-                    I&apos;ll get back to you soon, promise!
-                  </p>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="space-y-4">
-                  <div className="grid gap-4 sm:grid-cols-2">
-                    <div>
-                      <label htmlFor="name" className="mb-2 block text-sm">
-                        Name
-                      </label>
-                      <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        required
-                        className="form-input"
-                        placeholder="Your name"
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="email" className="mb-2 block text-sm">
-                        Email
-                      </label>
-                      <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        required
-                        className="form-input"
-                        placeholder="you@example.com"
-                      />
-                    </div>
-                  </div>
+            <p className="eyebrow mb-[var(--space-md)]">Or use this form</p>
+            <div className="space-y-[var(--space-md)]">
+              <Field label="Your name" name="name" required />
+              <Field label="Email" name="email" type="email" required />
+              <Field label="Subject" name="subject" />
+              <Field label="Message" name="message" multiline required />
+            </div>
 
-                  <div>
-                    <label htmlFor="subject" className="mb-2 block text-sm">
-                      Subject
-                    </label>
-                    <input
-                      type="text"
-                      id="subject"
-                      name="subject"
-                      required
-                      className="form-input"
-                      placeholder="What's on your mind?"
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="message" className="mb-2 block text-sm">
-                      Message
-                    </label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      required
-                      rows={4}
-                      className="form-input resize-none"
-                      placeholder="Tell me about it! I read every message :)"
-                    />
-                  </div>
-
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="flex w-full items-center justify-center gap-2 rounded-lg bg-[var(--accent)] px-6 py-3 font-medium text-[var(--background)] transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
-                  >
-                    {isSubmitting ? (
-                      <>
-                        <Loader2 className="h-4 w-4 animate-spin" />
-                        Sending...
-                      </>
-                    ) : (
-                      <>
-                        <Send className="h-4 w-4" />
-                        Send It!
-                      </>
-                    )}
-                  </button>
-                </form>
+            <div className="mt-[var(--space-lg)] flex items-center gap-[var(--space-md)]">
+              <button
+                type="submit"
+                disabled={status === "sending"}
+                className="pill"
+                aria-disabled={status === "sending"}
+              >
+                {status === "sending" ? "Sending…" : status === "sent" ? "Sent" : "Send message"}
+                {status === "idle" && <span aria-hidden>→</span>}
+              </button>
+              {status === "sent" && (
+                <p
+                  role="status"
+                  className="font-[var(--font-mono)] text-xs uppercase tracking-[0.08em] text-[var(--color-ink-3)]"
+                >
+                  Got it — I&apos;ll reply within a day.
+                </p>
+              )}
+              {status === "error" && (
+                <p
+                  role="alert"
+                  className="font-[var(--font-mono)] text-xs uppercase tracking-[0.08em] text-[var(--color-accent)]"
+                >
+                  Something went wrong — try email instead.
+                </p>
               )}
             </div>
-          </motion.div>
+          </motion.form>
         </div>
       </div>
     </section>
+  );
+}
+
+function Field({
+  label,
+  name,
+  type = "text",
+  required,
+  multiline,
+}: {
+  label: string;
+  name: string;
+  type?: string;
+  required?: boolean;
+  multiline?: boolean;
+}) {
+  const sharedClass =
+    "block w-full appearance-none rounded-none border-0 border-b border-[var(--color-rule)] bg-transparent px-0 py-[var(--space-xs)] font-[var(--font-body)] text-[var(--color-ink)] placeholder-[var(--color-ink-3)] outline-none transition-colors focus:border-[var(--color-ink)]";
+
+  return (
+    <label className="block">
+      <span className="font-[var(--font-mono)] text-[11px] uppercase tracking-[0.08em] text-[var(--color-ink-3)]">
+        {label}
+        {required && <span aria-hidden> *</span>}
+      </span>
+      {multiline ? (
+        <textarea
+          name={name}
+          required={required}
+          rows={4}
+          className={`${sharedClass} resize-none`}
+        />
+      ) : (
+        <input
+          name={name}
+          type={type}
+          required={required}
+          className={sharedClass}
+        />
+      )}
+    </label>
   );
 }

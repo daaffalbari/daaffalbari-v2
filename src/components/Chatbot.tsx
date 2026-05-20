@@ -47,19 +47,19 @@ const parseMessage = (content: string): string => {
   // Convert URLs in angle brackets like &lt;https://...&gt; to clickable links
   parsed = parsed.replace(
     /&lt;(https?:\/\/[^\s&]+)&gt;/g,
-    '<a href="$1" target="_blank" rel="noopener noreferrer" class="text-[var(--accent)] hover:underline break-all">$1</a>'
+    '<a href="$1" target="_blank" rel="noopener noreferrer" class="lnk break-all">$1</a>'
   );
 
   // Convert markdown links [text](url)
   parsed = parsed.replace(
     /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,
-    '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-[var(--accent)] hover:underline">$1</a>'
+    '<a href="$2" target="_blank" rel="noopener noreferrer" class="lnk">$1</a>'
   );
 
   // Convert plain URLs to clickable links (that aren't already in anchor tags)
   parsed = parsed.replace(
     /(?<!href="|>)(https?:\/\/[^\s<]+)(?![^<]*<\/a>)/g,
-    '<a href="$1" target="_blank" rel="noopener noreferrer" class="text-[var(--accent)] hover:underline break-all">$1</a>'
+    '<a href="$1" target="_blank" rel="noopener noreferrer" class="lnk break-all">$1</a>'
   );
 
   // Convert newlines to <br>
@@ -236,123 +236,109 @@ export function Chatbot({ externalOpen, onExternalOpenChange }: ChatbotProps) {
 
   return (
     <>
-      {/* Floating Chat Button */}
+      {/* Floating Chat Trigger */}
       <motion.button
         onClick={() => setIsOpen(true)}
-        className={`fixed bottom-6 right-6 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-[var(--accent)] text-[var(--background)] shadow-lg transition-transform hover:scale-105 ${isOpen ? "hidden" : ""}`}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        initial={{ scale: 0, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ delay: 1, type: "spring" }}
+        aria-label="Ask my agent"
+        className={`fixed bottom-6 right-6 z-40 inline-flex items-center gap-[var(--space-2xs)] border border-[var(--color-ink)] bg-[var(--color-paper)] px-4 py-2 text-sm transition-colors hover:bg-[var(--color-ink)] hover:text-[var(--color-paper)] ${isOpen ? "hidden" : ""}`}
+        style={{ fontFamily: "var(--font-body)" }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.8, duration: 0.4 }}
       >
-        <MessageCircle className="h-5 w-5" />
+        <MessageCircle className="h-4 w-4" strokeWidth={1.5} />
+        Ask my agent
       </motion.button>
 
       {/* Chat Window */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            transition={{ type: "spring", duration: 0.3 }}
-            className="fixed bottom-0 right-0 z-50 flex h-[100dvh] w-full flex-col overflow-hidden border-[var(--card-border)] bg-[var(--card)] shadow-2xl sm:bottom-6 sm:right-6 sm:h-[450px] sm:w-[340px] sm:rounded-xl sm:border"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.22 }}
+            className="fixed bottom-0 right-0 z-50 flex h-[100dvh] w-full flex-col overflow-hidden border-[var(--color-ink)] bg-[var(--color-paper)] sm:bottom-6 sm:right-6 sm:h-[480px] sm:w-[360px] sm:border"
             data-lenis-prevent
           >
-            {/* Header */}
-            <div className="flex items-center justify-between border-b border-[var(--card-border)] bg-[var(--background-secondary)] px-3 py-2.5">
-              <div className="flex items-center gap-2.5">
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--accent)]/10">
-                  <Bot className="h-4 w-4 text-[var(--accent)]" />
-                </div>
-                <div>
-                  <h3 className="text-sm font-medium text-[var(--foreground)]">
-                    Abel
-                  </h3>
-                  <p className="text-[10px] text-[var(--foreground-muted)]">
-                    Daffa&apos;s friendly AI buddy
-                  </p>
-                </div>
+            <div className="flex items-center justify-between border-b border-[var(--color-rule)] px-[var(--space-md)] py-[var(--space-sm)]">
+              <div>
+                <p className="font-[var(--font-mono)] text-[10px] uppercase tracking-[0.08em] text-[var(--color-ink-3)]">
+                  Abel · the agent
+                </p>
+                <h3 className="font-[var(--font-display)] text-lg font-medium tracking-tight text-[var(--color-ink)]">
+                  Ask anything about Daffa
+                </h3>
               </div>
-              <div className="flex items-center gap-0.5">
+              <div className="flex items-center gap-1">
                 {messages.length > 0 && (
                   <button
                     onClick={clearChat}
-                    className="rounded-full p-1.5 text-[var(--foreground-muted)] transition-colors hover:bg-[var(--card-hover)] hover:text-[var(--foreground)]"
+                    className="inline-flex h-8 w-8 items-center justify-center text-[var(--color-ink-3)] transition-colors hover:text-[var(--color-ink)]"
                     title="Clear chat"
+                    aria-label="Clear chat"
                   >
-                    <Trash2 className="h-3.5 w-3.5" />
+                    <Trash2 className="h-4 w-4" strokeWidth={1.5} />
                   </button>
                 )}
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="rounded-full p-1.5 text-[var(--foreground-muted)] transition-colors hover:bg-[var(--card-hover)] hover:text-[var(--foreground)]"
+                  className="inline-flex h-8 w-8 items-center justify-center text-[var(--color-ink-3)] transition-colors hover:text-[var(--color-ink)]"
+                  aria-label="Close"
                 >
-                  <X className="h-4 w-4" />
+                  <X className="h-4 w-4" strokeWidth={1.5} />
                 </button>
               </div>
             </div>
 
-            {/* Messages */}
             <div
               ref={messagesContainerRef}
-              className="chatbot-messages flex-1 p-3"
+              className="chatbot-messages flex-1 p-[var(--space-md)]"
               data-lenis-prevent
             >
               {messages.length === 0 ? (
-                <div className="flex h-full flex-col items-center justify-center text-center">
-                  <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-[var(--accent)]/10">
-                    <Sparkles className="h-6 w-6 text-[var(--accent)]" />
-                  </div>
-                  <h4 className="mb-1.5 text-sm font-medium text-[var(--foreground)]">
-                    Hey! I&apos;m Abel 👋
-                  </h4>
-                  <p className="mb-4 text-xs leading-relaxed text-[var(--foreground-muted)]">
-                    I know all about Daffa — his projects, skills,
-                    <br />
-                    and work. Ask me anything!
+                <div className="flex h-full flex-col items-start justify-center text-left">
+                  <p className="font-[var(--font-mono)] text-[10px] uppercase tracking-[0.08em] text-[var(--color-ink-3)]">
+                    Start anywhere
                   </p>
-                  <div className="flex flex-wrap justify-center gap-1.5">
+                  <h4 className="mt-[var(--space-xs)] font-[var(--font-display)] text-xl font-medium leading-tight tracking-tight text-[var(--color-ink)]">
+                    Abel has read everything about Daffa &mdash; the work, the writing, the wins.
+                  </h4>
+                  <p className="mt-[var(--space-sm)] text-sm text-[var(--color-ink-2)]">
+                    Try a suggested question, or write your own.
+                  </p>
+                  <ul className="mt-[var(--space-lg)] grid w-full gap-[var(--space-2xs)]">
                     {suggestedQuestions.map((question) => (
-                      <button
-                        key={question}
-                        onClick={() => sendMessage(question)}
-                        className="rounded-full border border-[var(--card-border)] px-2.5 py-1 text-[10px] text-[var(--foreground-muted)] transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
-                      >
-                        {question}
-                      </button>
+                      <li key={question}>
+                        <button
+                          onClick={() => sendMessage(question)}
+                          className="group flex w-full items-baseline justify-between gap-[var(--space-sm)] border-t border-[var(--color-rule)] py-[var(--space-2xs)] text-left text-sm text-[var(--color-ink-2)] transition-colors hover:text-[var(--color-ink)]"
+                        >
+                          <span>{question}</span>
+                          <span
+                            aria-hidden
+                            className="font-[var(--font-mono)] text-[10px] text-[var(--color-ink-3)] transition-transform group-hover:translate-x-0.5"
+                          >
+                            →
+                          </span>
+                        </button>
+                      </li>
                     ))}
-                  </div>
+                  </ul>
                 </div>
               ) : (
-                <div className="space-y-3">
+                <div className="space-y-[var(--space-md)]">
                   {messages.map((message) => (
                     <div
                       key={message.id}
-                      className={`flex gap-2 ${message.role === "user" ? "flex-row-reverse" : ""}`}
+                      className="grid grid-cols-[3rem_1fr] gap-[var(--space-sm)]"
                     >
-                      <div
-                        className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full ${
-                          message.role === "user"
-                            ? "bg-[var(--accent)]"
-                            : "bg-[var(--accent)]/10"
-                        }`}
+                      <p
+                        className="pt-[0.15em] font-[var(--font-mono)] text-[10px] uppercase tracking-[0.08em] text-[var(--color-ink-3)]"
                       >
-                        {message.role === "user" ? (
-                          <User className="h-3 w-3 text-[var(--background)]" />
-                        ) : (
-                          <Bot className="h-3 w-3 text-[var(--accent)]" />
-                        )}
-                      </div>
-                      <div
-                        className={`max-w-[80%] rounded-xl px-3 py-2 text-xs leading-relaxed ${
-                          message.role === "user"
-                            ? "bg-[var(--accent)] text-[var(--background)]"
-                            : "bg-[var(--background-secondary)] text-[var(--foreground)]"
-                        }`}
-                        style={{ fontFamily: "var(--font-sans)" }}
-                      >
+                        {message.role === "user" ? "You" : "Abel"}
+                      </p>
+                      <div className="text-sm leading-relaxed text-[var(--color-ink)]">
                         {message.content ? (
                           message.role === "user" ? (
                             message.content
@@ -364,7 +350,10 @@ export function Chatbot({ externalOpen, onExternalOpenChange }: ChatbotProps) {
                             />
                           )
                         ) : (
-                          <Loader2 className="h-3 w-3 animate-spin" />
+                          <Loader2
+                            className="h-3.5 w-3.5 animate-spin text-[var(--color-ink-3)]"
+                            strokeWidth={1.5}
+                          />
                         )}
                       </div>
                     </div>
@@ -374,31 +363,31 @@ export function Chatbot({ externalOpen, onExternalOpenChange }: ChatbotProps) {
               )}
             </div>
 
-            {/* Input */}
             <form
               onSubmit={handleSubmit}
-              className="border-t border-[var(--card-border)] p-3"
+              className="border-t border-[var(--color-rule)] p-[var(--space-md)]"
             >
-              <div className="flex gap-2">
+              <div className="flex items-center gap-[var(--space-sm)] border-b border-[var(--color-rule)] pb-[var(--space-2xs)] focus-within:border-[var(--color-ink)]">
                 <input
                   ref={inputRef}
                   type="text"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
-                  placeholder="Ask me anything about Daffa..."
+                  placeholder="Ask Abel about Daffa…"
                   disabled={isLoading}
-                  className="flex-1 rounded-full border border-[var(--card-border)] bg-[var(--background)] px-3 py-1.5 text-xs text-[var(--foreground)] placeholder-[var(--foreground-muted)] outline-none transition-colors focus:border-[var(--accent)]"
-                  style={{ fontFamily: "var(--font-sans)" }}
+                  className="flex-1 bg-transparent text-sm text-[var(--color-ink)] placeholder-[var(--color-ink-3)] outline-none"
+                  style={{ fontFamily: "var(--font-body)" }}
                 />
                 <button
                   type="submit"
                   disabled={!input.trim() || isLoading}
-                  className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--accent)] text-[var(--background)] transition-opacity disabled:opacity-50"
+                  aria-label="Send"
+                  className="inline-flex h-7 w-7 items-center justify-center text-[var(--color-ink-3)] transition-colors hover:text-[var(--color-ink)] disabled:opacity-40"
                 >
                   {isLoading ? (
-                    <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                    <Loader2 className="h-4 w-4 animate-spin" strokeWidth={1.5} />
                   ) : (
-                    <Send className="h-3.5 w-3.5" />
+                    <Send className="h-4 w-4" strokeWidth={1.5} />
                   )}
                 </button>
               </div>

@@ -2,110 +2,69 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import {
-  Globe,
-  Trophy,
-  Award,
-  Medal,
-  GraduationCap,
-  BadgeCheck,
-} from "lucide-react";
 import { achievements } from "@/lib/data";
-
-const icons = {
-  globe: Globe,
-  trophy: Trophy,
-  award: Award,
-  medal: Medal,
-  graduation: GraduationCap,
-  certificate: BadgeCheck,
-};
 
 export function Achievements() {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section id="achievements" className="section" ref={ref}>
-      <div className="container relative">
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5 }}
-          className="mb-16"
+    <section id="achievements" ref={ref} className="chapter">
+      <div className="page">
+        <motion.header
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="chapter-head"
         >
-          <span className="mb-4 inline-block font-mono text-sm text-[var(--accent)]">
-            Achievements
-          </span>
-          <h2 className="section-title">Some Nice Wins Along the Way</h2>
-        </motion.div>
+          <span className="chapter-head__num">№ 05 · Awards</span>
+          <h2 className="chapter-head__title">
+            Recognition along the way.
+          </h2>
+        </motion.header>
 
-        {/* Achievements Grid */}
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {achievements.map((achievement, index) => {
-            const Icon = icons[achievement.icon as keyof typeof icons] || Award;
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.6, delay: 0.06, ease: [0.16, 1, 0.3, 1] }}
+          className="standfirst mb-[var(--space-xl)]"
+        >
+          A handful of competitions and certifications that taught me to ship
+          under pressure.
+        </motion.p>
 
-            return (
-              <motion.div
-                key={achievement.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="group rounded-xl border border-[var(--card-border)] bg-[var(--card)] p-5 transition-colors hover:border-[var(--card-border-hover)]"
-              >
-                {/* Icon */}
-                <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-[var(--accent)]/10">
-                  <Icon className="h-5 w-5 text-[var(--accent)]" />
-                </div>
+        <ol className="border-t border-[var(--color-ink)]">
+          {achievements.map((item, index) => (
+            <motion.li
+              key={item.id}
+              initial={{ opacity: 0 }}
+              animate={isInView ? { opacity: 1 } : {}}
+              transition={{
+                duration: 0.5,
+                delay: 0.1 + index * 0.05,
+                ease: [0.16, 1, 0.3, 1],
+              }}
+              className="grid grid-cols-[3rem_1fr_auto] items-baseline gap-[var(--space-md)] border-b border-[var(--color-rule)] py-[var(--space-md)]"
+            >
+              <span className="font-[var(--font-mono)] text-xs uppercase tracking-[0.08em] text-[var(--color-ink-3)]">
+                №{String(index + 1).padStart(2, "0")}
+              </span>
 
-                {/* Content */}
-                <h3 className="mb-1 font-semibold text-[var(--foreground)]">
-                  {achievement.title}
+              <div className="min-w-0">
+                <h3 className="font-[var(--font-display)] text-xl font-medium tracking-tight text-[var(--color-ink)]">
+                  {item.title}
                 </h3>
-                <p className="mb-2 text-sm text-[var(--foreground-muted)]">
-                  {achievement.organization}
+                <p className="mt-[var(--space-3xs)] text-sm text-[var(--color-ink-2)]">
+                  <span className="italic">{item.organization}</span>
                 </p>
-                <span className="text-xs text-[var(--accent)]">
-                  {achievement.year}
-                </span>
-              </motion.div>
-            );
-          })}
-        </div>
+              </div>
 
-        {/* Stats */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5, delay: 0.5 }}
-          className="mt-12 grid gap-4 rounded-xl border border-[var(--card-border)] bg-[var(--card)] p-6 sm:grid-cols-4"
-        >
-          <div className="text-center">
-            <div className="text-2xl font-bold text-[var(--accent)]">2×</div>
-            <div className="text-xs text-[var(--foreground-muted)]">
-              Google Challenge Finalist
-            </div>
-          </div>
-          <div className="text-center">
-            <div className="text-2xl font-bold text-[var(--foreground)]">Top 10</div>
-            <div className="text-xs text-[var(--foreground-muted)]">
-              Microsoft Imagine Cup
-            </div>
-          </div>
-          <div className="text-center">
-            <div className="text-2xl font-bold text-[var(--foreground)]">6+</div>
-            <div className="text-xs text-[var(--foreground-muted)]">
-              Competition Trophies
-            </div>
-          </div>
-          <div className="text-center">
-            <div className="text-2xl font-bold text-[var(--foreground)]">Certified</div>
-            <div className="text-xs text-[var(--foreground-muted)]">
-              TensorFlow Developer
-            </div>
-          </div>
-        </motion.div>
+              <span className="font-[var(--font-mono)] text-xs uppercase tracking-[0.08em] text-[var(--color-ink-3)] whitespace-nowrap">
+                {item.year}
+              </span>
+            </motion.li>
+          ))}
+        </ol>
       </div>
     </section>
   );
