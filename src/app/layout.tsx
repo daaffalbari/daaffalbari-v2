@@ -1,22 +1,10 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import { PageLoader } from "@/components/PageLoader";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
 export const metadata: Metadata = {
-  title: "Daffa Albari | AI Engineer & LLM Specialist",
+  title: "Daffa Albari — AI Engineer",
   description:
-    "Building intelligent systems at the intersection of AI and infrastructure. Specializing in LLM agents, RAG architectures, and scalable ML deployments.",
+    "Building AI that works in the real world. LLM frameworks, RAG, knowledge graphs, and the boring infrastructure that keeps it all running.",
   keywords: [
     "AI Engineer",
     "LLM Specialist",
@@ -34,23 +22,23 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://daaffalbari.dev",
     siteName: "Daffa Albari",
-    title: "Daffa Albari | AI Engineer & LLM Specialist",
+    title: "Daffa Albari — AI Engineer",
     description:
-      "Building intelligent systems at the intersection of AI and infrastructure.",
+      "Building AI that works in the real world. LLM frameworks, RAG, knowledge graphs.",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Daffa Albari - AI Engineer",
+        alt: "Daffa Albari — AI Engineer",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Daffa Albari | AI Engineer & LLM Specialist",
+    title: "Daffa Albari — AI Engineer",
     description:
-      "Building intelligent systems at the intersection of AI and infrastructure.",
+      "Building AI that works in the real world. LLM frameworks, RAG, knowledge graphs.",
     images: ["/og-image.png"],
   },
   robots: {
@@ -67,7 +55,6 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#050506",
   width: "device-width",
   initialScale: 1,
 };
@@ -92,12 +79,7 @@ export default function RootLayout({
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <PageLoader />
-        {children}
-      </body>
+      <body className="antialiased">{children}</body>
     </html>
   );
 }

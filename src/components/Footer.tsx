@@ -1,49 +1,65 @@
-"use client";
-
-import { Github, Linkedin, Mail, Heart } from "lucide-react";
-import { personalInfo, socialLinks } from "@/lib/data";
+import { socialLinks } from "@/lib/data";
 
 export function Footer() {
-  const currentYear = new Date().getFullYear();
-
-  const socialIcons: Record<string, typeof Github> = {
-    github: Github,
-    linkedin: Linkedin,
-    mail: Mail,
-  };
+  const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-[var(--card-border)]">
-      <div className="container">
-        <div className="flex flex-col items-center gap-6 py-10">
-          {/* Name */}
-          <p className="text-lg font-semibold text-[var(--foreground)]">
-            {personalInfo.name}
-          </p>
-
-          {/* Social Links */}
-          <div className="flex items-center gap-2">
-            {socialLinks.map((link) => {
-              const Icon = socialIcons[link.icon] || Github;
-              return (
-                <a
-                  key={link.name}
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex h-9 w-9 items-center justify-center rounded-full text-[var(--foreground-muted)] transition-colors hover:bg-[var(--card-hover)] hover:text-[var(--foreground)]"
-                >
-                  <Icon className="h-4 w-4" />
-                </a>
-              );
-            })}
+    <footer className="border-t border-[var(--color-rule)]">
+      <div className="page py-[var(--space-2xl)]">
+        <div className="grid gap-[var(--space-xl)] md:grid-cols-[1fr_auto] md:items-end">
+          <div className="max-w-[36rem]">
+            <p
+              className="font-[var(--font-mono)] text-[11px] uppercase tracking-[0.08em] text-[var(--color-ink-3)]"
+            >
+              Colophon
+            </p>
+            <p
+              className="mt-[var(--space-md)] font-[var(--font-display)] text-[1.75rem] font-medium leading-[1.25] tracking-tight text-[var(--color-ink)]"
+            >
+              Thanks for reading. If anything here was useful — or you want to
+              build something together — write to me.
+            </p>
+            <p className="mt-[var(--space-md)] text-[var(--color-ink-2)]">
+              Set in Caraque and GT America Mono. Written and shipped from
+              Bandung, Indonesia. Last revised{" "}
+              {new Date().toLocaleDateString("en-GB", {
+                month: "long",
+                year: "numeric",
+              })}
+              .
+            </p>
+            <p className="mt-[var(--space-lg)]">
+              <a
+                href="mailto:daffaa.albari@gmail.com"
+                className="lnk font-[var(--font-display)] text-xl"
+              >
+                daffaa.albari@gmail.com →
+              </a>
+            </p>
           </div>
 
-          {/* Bottom */}
-          <div className="flex flex-col items-center gap-1 text-xs text-[var(--foreground-muted)]">
-            <p>© {currentYear} — Thanks for stopping by!</p>
-            <p className="flex items-center gap-1">
-              Made with <Heart className="h-3 w-3 fill-[var(--accent)] text-[var(--accent)]" /> in Indonesia
+          <div className="flex flex-col gap-[var(--space-md)] md:items-end">
+            <p
+              className="font-[var(--font-display)] text-base font-medium tracking-tight text-[var(--color-ink)]"
+            >
+              Daffa Albari
+            </p>
+            <ul className="flex flex-wrap gap-x-[var(--space-md)] gap-y-[var(--space-2xs)] md:justify-end">
+              {socialLinks.map((link) => (
+                <li key={link.name}>
+                  <a
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="lnk font-[var(--font-mono)] text-xs uppercase tracking-[0.08em]"
+                  >
+                    {link.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <p className="font-[var(--font-mono)] text-[11px] uppercase tracking-[0.08em] text-[var(--color-ink-3)] md:text-right">
+              © {year} · Daffa Albari
             </p>
           </div>
         </div>

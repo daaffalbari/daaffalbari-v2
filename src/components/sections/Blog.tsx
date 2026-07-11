@@ -1,9 +1,8 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { motion, useInView } from "framer-motion";
-import { Calendar, Clock, ArrowUpRight, Rss } from "lucide-react";
 import {
   getMediumPosts,
   calculateReadTime,
@@ -13,168 +12,137 @@ import {
 
 export function Blog() {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: true, margin: "-80px" });
   const [posts, setPosts] = useState<MediumPost[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    async function fetchPosts() {
+    let cancelled = false;
+    (async () => {
       const mediumPosts = await getMediumPosts(6);
-      setPosts(mediumPosts);
-      setIsLoading(false);
-    }
-    fetchPosts();
+      if (!cancelled) {
+        setPosts(mediumPosts);
+        setIsLoading(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      month: "short",
+  const formatDate = (dateString: string) =>
+    new Date(dateString).toLocaleDateString("en-GB", {
       day: "numeric",
+      month: "long",
       year: "numeric",
     });
-  };
 
   return (
-    <section id="blog" className="section" ref={ref}>
-      <div className="container relative">
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5 }}
-          className="mb-12"
+    <section id="notes" ref={ref} className="chapter">
+      <div className="page">
+        <motion.header
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="chapter-head"
         >
-          <span className="mb-4 inline-block font-mono text-sm text-[var(--accent)]">
-            Blog
-          </span>
-          <h2 className="section-title">Random Thoughts &amp; Learnings</h2>
-        </motion.div>
+          <span className="chapter-head__num">№ 06 · Notes</span>
+          <h2 className="chapter-head__title">
+            Writing — mostly on AI in production.
+          </h2>
+        </motion.header>
 
-        {/* Loading State */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.6, delay: 0.06, ease: [0.16, 1, 0.3, 1] }}
+          className="standfirst mb-[var(--space-xl)]"
+        >
+          Field notes from shipping models, agents, and the messy infrastructure
+          underneath. Cross-posted from Medium.
+        </motion.p>
+
         {isLoading ? (
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {[1, 2, 3].map((i) => (
-              <div
+          <ul className="border-t border-[var(--color-ink)]">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <li
                 key={i}
-                className="animate-pulse rounded-xl border border-[var(--card-border)] bg-[var(--card)] p-5"
+                className="grid grid-cols-[3rem_1fr_auto] items-baseline gap-[var(--space-md)] border-b border-[var(--color-rule)] py-[var(--space-md)]"
               >
-                <div className="mb-3 flex gap-1.5">
-                  <div className="h-5 w-12 rounded-md bg-[var(--card-hover)]" />
-                  <div className="h-5 w-16 rounded-md bg-[var(--card-hover)]" />
-                </div>
-                <div className="mb-2 h-6 w-3/4 rounded bg-[var(--card-hover)]" />
-                <div className="mb-4 space-y-2">
-                  <div className="h-4 w-full rounded bg-[var(--card-hover)]" />
-                  <div className="h-4 w-2/3 rounded bg-[var(--card-hover)]" />
-                </div>
-                <div className="flex gap-3">
-                  <div className="h-4 w-20 rounded bg-[var(--card-hover)]" />
-                  <div className="h-4 w-16 rounded bg-[var(--card-hover)]" />
-                </div>
-              </div>
+                <span className="font-[var(--font-mono)] text-xs uppercase tracking-[0.08em] text-[var(--color-ink-3)]">
+                  —
+                </span>
+                <span className="h-5 w-3/4 max-w-[28rem] rounded-sm bg-[var(--color-paper-2)]" />
+                <span className="h-3 w-20 rounded-sm bg-[var(--color-paper-2)]" />
+              </li>
             ))}
-          </div>
+          </ul>
         ) : posts.length === 0 ? (
-          /* Empty State */
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5 }}
-            className="flex flex-col items-center justify-center rounded-xl border border-[var(--card-border)] bg-[var(--card)] p-12 text-center"
-          >
-            <Rss className="mb-4 h-12 w-12 text-[var(--foreground-muted)]" />
-            <h3 className="mb-2 text-lg font-semibold">Nothing here yet!</h3>
-            <p className="text-sm text-[var(--foreground-muted)]">
-              I&apos;m writing some stuff, check back soon 😄
-            </p>
-          </motion.div>
+          <p className="text-[var(--color-ink-2)]">
+            Nothing fetched yet. Read everything on{" "}
+            <a
+              href={MEDIUM_PROFILE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="lnk"
+            >
+              Medium →
+            </a>
+          </p>
         ) : (
-          /* Blog Grid */
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <ol className="border-t border-[var(--color-ink)]">
             {posts.map((post, index) => (
-              <motion.article
+              <motion.li
                 key={post.guid}
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="group"
+                initial={{ opacity: 0 }}
+                animate={isInView ? { opacity: 1 } : {}}
+                transition={{
+                  duration: 0.5,
+                  delay: 0.1 + index * 0.05,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
+                className="border-b border-[var(--color-rule)]"
               >
                 <Link
                   href={`/blog/${post.slug}`}
-                  className="block h-full"
+                  className="group grid grid-cols-[3rem_1fr_auto] items-baseline gap-[var(--space-md)] py-[var(--space-md)] transition-colors hover:bg-[var(--color-paper-2)]"
                 >
-                  <div className="flex h-full flex-col rounded-xl border border-[var(--card-border)] bg-[var(--card)] p-5 transition-colors hover:border-[var(--card-border-hover)]">
-                    {/* Thumbnail */}
-                    {post.thumbnail && (
-                      <div className="mb-4 aspect-video overflow-hidden rounded-lg">
-                        <img
-                          src={post.thumbnail}
-                          alt={post.title}
-                          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                        />
-                      </div>
-                    )}
+                  <span className="font-[var(--font-mono)] text-xs uppercase tracking-[0.08em] text-[var(--color-ink-3)]">
+                    №{String(index + 1).padStart(2, "0")}
+                  </span>
 
-                    {/* Tags */}
-                    {post.categories.length > 0 && (
-                      <div className="mb-3 flex flex-wrap gap-1.5">
-                        {post.categories.slice(0, 2).map((tag) => (
-                          <span
-                            key={tag}
-                            className="rounded-md bg-[var(--card-hover)] px-2 py-0.5 text-xs text-[var(--foreground-muted)]"
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-
-                    {/* Title */}
-                    <h3 className="mb-2 font-semibold text-[var(--foreground)] transition-colors group-hover:text-[var(--accent)]">
+                  <div className="min-w-0">
+                    <h3 className="font-[var(--font-display)] text-xl font-medium leading-tight tracking-tight text-[var(--color-ink)] md:text-2xl">
                       {post.title}
                     </h3>
-
-                    {/* Excerpt */}
-                    <p className="mb-4 flex-grow line-clamp-2 text-sm text-[var(--foreground-muted)]">
-                      {post.description}
+                    <p className="mt-[var(--space-3xs)] font-[var(--font-mono)] text-xs uppercase tracking-[0.08em] text-[var(--color-ink-3)]">
+                      {formatDate(post.pubDate)} · {calculateReadTime(post.content)}
                     </p>
-
-                    {/* Meta */}
-                    <div className="mt-auto flex items-center gap-3 text-xs text-[var(--foreground-muted)]">
-                      <span className="flex items-center gap-1">
-                        <Calendar className="h-3 w-3" />
-                        {formatDate(post.pubDate)}
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <Clock className="h-3 w-3" />
-                        {calculateReadTime(post.content || post.description)}
-                      </span>
-                    </div>
                   </div>
+
+                  <span
+                    aria-hidden
+                    className="font-[var(--font-mono)] text-xs uppercase tracking-[0.08em] text-[var(--color-ink-3)] transition-transform group-hover:translate-x-0.5"
+                  >
+                    Read →
+                  </span>
                 </Link>
-              </motion.article>
+              </motion.li>
             ))}
-          </div>
+          </ol>
         )}
 
-        {/* Medium Link */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="mt-10"
-        >
+        <p className="mt-[var(--space-xl)] text-sm text-[var(--color-ink-3)]">
+          The full archive lives on{" "}
           <a
             href={MEDIUM_PROFILE_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-sm text-[var(--foreground-muted)] transition-colors hover:text-[var(--foreground)]"
+            className="lnk"
           >
-            <Rss className="h-4 w-4" />
-            More posts on Medium
-            <ArrowUpRight className="h-3 w-3" />
+            Medium →
           </a>
-        </motion.div>
+        </p>
       </div>
     </section>
   );

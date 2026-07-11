@@ -1,152 +1,142 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Command } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { navLinks, personalInfo } from "@/lib/data";
 import { ThemeToggle } from "./ThemeToggle";
 
 interface NavigationProps {
   onOpenCommandPalette: () => void;
 }
 
+const navLinks = [
+  { href: "#work", label: "Work" },
+  { href: "#notes", label: "Notes" },
+  { href: "#contact", label: "Get in touch" },
+];
+
 export function Navigation({ onOpenCommandPalette }: NavigationProps) {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState("");
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-
-      const sections = navLinks.map((link) => link.href.replace("#", ""));
-      for (const section of sections.reverse()) {
-        const element = document.getElementById(section);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          if (rect.top <= 150) {
-            setActiveSection(section);
-            break;
-          }
-        }
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
+    const handleScroll = () => setIsScrolled(window.scrollY > 12);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
+    const handleKey = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === "k") {
         e.preventDefault();
         onOpenCommandPalette();
       }
     };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
   }, [onOpenCommandPalette]);
+
+  useEffect(() => {
+    document.body.style.overflow = isMobileOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isMobileOpen]);
 
   return (
     <>
-      <motion.header
-        initial={{ y: -100, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.5 }}
+      <header
         className={cn(
-          "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+          "fixed inset-x-0 top-0 z-50 transition-colors",
           isScrolled
-            ? "border-b border-[var(--card-border)] bg-[var(--background)]/80 backdrop-blur-xl"
-            : "bg-transparent"
+            ? "border-b border-[var(--color-rule)] bg-[var(--color-paper)]"
+            : "border-b border-transparent bg-[var(--color-paper)]/0",
         )}
+        style={{ transitionDuration: "var(--dur-base)" }}
       >
-        <nav className="container flex h-16 items-center justify-between">
-          {/* Logo */}
-          <a href="#" className="text-sm font-semibold">
-            {personalInfo.name}
+        <nav className="page flex h-[var(--nav-height)] items-center justify-between gap-4">
+          <a
+            href="#"
+            className="font-[var(--font-display)] text-base font-medium tracking-tight text-[var(--color-ink)]"
+            aria-label="Daffa Albari — home"
+          >
+            Daffa Albari
           </a>
 
-          {/* Desktop Navigation */}
-          <div className="hidden items-center gap-1 md:flex">
+          <div className="hidden items-center gap-7 md:flex">
             {navLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
-                className={cn(
-                  "relative px-3 py-2 text-sm transition-colors",
-                  activeSection === link.href.replace("#", "")
-                    ? "text-[var(--foreground)]"
-                    : "text-[var(--foreground-muted)] hover:text-[var(--foreground)]"
-                )}
+                className="font-[var(--font-body)] text-sm text-[var(--color-ink-2)] transition-colors hover:text-[var(--color-ink)]"
               >
                 {link.label}
-                {activeSection === link.href.replace("#", "") && (
-                  <motion.div
-                    layoutId="activeSection"
-                    className="absolute inset-x-2 -bottom-px h-px bg-[var(--accent)]"
-                  />
-                )}
               </a>
             ))}
-          </div>
-
-          {/* Actions */}
-          <div className="flex items-center gap-2">
+            <span
+              aria-hidden
+              className="h-3 w-px bg-[var(--color-rule)]"
+            />
             <button
               onClick={onOpenCommandPalette}
-              className="hidden items-center gap-2 rounded-lg border border-[var(--card-border)] px-3 py-1.5 text-xs text-[var(--foreground-muted)] transition-colors hover:border-[var(--card-border-hover)] md:flex"
+              className="font-[var(--font-mono)] text-[11px] uppercase tracking-[0.08em] text-[var(--color-ink-3)] transition-colors hover:text-[var(--color-ink)]"
+              aria-label="Open command palette (⌘K)"
             >
-              <Command className="h-3 w-3" />
-              <span>K</span>
+              ⌘ K
             </button>
-
             <ThemeToggle />
+          </div>
 
+          <div className="flex items-center gap-2 md:hidden">
+            <ThemeToggle />
             <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="flex h-9 w-9 items-center justify-center rounded-lg border border-[var(--card-border)] md:hidden"
+              onClick={() => setIsMobileOpen(!isMobileOpen)}
+              className="inline-flex h-9 w-9 items-center justify-center text-[var(--color-ink-2)]"
+              aria-label={isMobileOpen ? "Close menu" : "Open menu"}
+              aria-expanded={isMobileOpen}
             >
-              {isMobileMenuOpen ? (
-                <X className="h-4 w-4" />
+              {isMobileOpen ? (
+                <X className="h-5 w-5" strokeWidth={1.5} />
               ) : (
-                <Menu className="h-4 w-4" />
+                <Menu className="h-5 w-5" strokeWidth={1.5} />
               )}
             </button>
           </div>
         </nav>
-      </motion.header>
+      </header>
 
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className="fixed inset-x-0 top-16 z-40 border-b border-[var(--card-border)] bg-[var(--background)] p-4 md:hidden"
-          >
-            <div className="flex flex-col gap-1">
+      {isMobileOpen && (
+        <div
+          className="fixed inset-x-0 top-[var(--nav-height)] z-40 border-b border-[var(--color-rule)] bg-[var(--color-paper)] md:hidden"
+        >
+          <div className="page py-6">
+            <ul className="flex flex-col gap-1">
               {navLinks.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className={cn(
-                    "rounded-lg px-4 py-2 text-sm transition-colors",
-                    activeSection === link.href.replace("#", "")
-                      ? "bg-[var(--card)] text-[var(--foreground)]"
-                      : "text-[var(--foreground-muted)] hover:bg-[var(--card)]"
-                  )}
-                >
-                  {link.label}
-                </a>
+                <li key={link.href}>
+                  <a
+                    href={link.href}
+                    onClick={() => setIsMobileOpen(false)}
+                    className="block py-3 font-[var(--font-display)] text-2xl font-medium tracking-tight text-[var(--color-ink)]"
+                  >
+                    {link.label}
+                  </a>
+                </li>
               ))}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            </ul>
+            <hr className="my-5 border-0 border-t border-[var(--color-rule)]" />
+            <button
+              onClick={() => {
+                setIsMobileOpen(false);
+                onOpenCommandPalette();
+              }}
+              className="font-[var(--font-mono)] text-xs uppercase tracking-[0.08em] text-[var(--color-ink-3)]"
+            >
+              ⌘ K — Command palette
+            </button>
+          </div>
+        </div>
+      )}
     </>
   );
 }
