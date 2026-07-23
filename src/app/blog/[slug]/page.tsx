@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getMediumPostBySlug, getMediumPosts, calculateReadTime } from "@/lib/medium";
 import { BlogPostContent } from "@/components/BlogPostContent";
+import { SITE_URL } from "@/lib/data";
 
 interface BlogPostPageProps {
   params: Promise<{ slug: string }>;
@@ -20,6 +21,9 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
   return {
     title: `${post.title} | Daffa Albari`,
     description: post.description,
+    alternates: {
+      canonical: `${SITE_URL}/blog/${post.slug}`,
+    },
     openGraph: {
       title: post.title,
       description: post.description,

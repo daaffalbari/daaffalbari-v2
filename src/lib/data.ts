@@ -1,3 +1,5 @@
+export const SITE_URL = "https://daaffalbari.dev";
+
 export const personalInfo = {
   name: "Daffa Albari",
   title: "AI Engineer & LLM Specialist",
