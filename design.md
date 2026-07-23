@@ -60,11 +60,21 @@ accent-hue: warm.
 
 ## Typography
 
-Locally hosted, no Google CDN. Preserves what was already on disk.
+Locally hosted, no Google CDN — no runtime requests leave the origin.
 
-- **Display:** `Caraque` — weights 400/500/700. Italic permitted at hero scale.
-- **Body:** `Caraque` Regular. Line-height 1.65. Measure 60–65ch.
-- **Mono / outlier:** `GT America Mono` Regular. Used for section numerals
+> **Substitution note (2026-07):** `Caraque` and `GT America Mono` were
+> specified in the original brief but their font files were never present
+> in the repo. Substituted with **Fraunces** (display + body) and
+> **IBM Plex Mono**, loaded via `next/font/google` in `layout.tsx` and
+> self-hosted at build time — same "no CDN at runtime" guarantee, same
+> warm-editorial-serif + neutral-mono pairing. If the licensed Caraque /
+> GT America Mono files become available, drop them into `public/fonts/`
+> and restore the `@font-face` blocks in `globals.css` in place of the
+> `next/font` imports.
+
+- **Display:** `Fraunces` — weights 400/500/700. Italic permitted at hero scale.
+- **Body:** `Fraunces` Regular. Line-height 1.65. Measure 60–65ch.
+- **Mono / outlier:** `IBM Plex Mono` Regular. Used for section numerals
   (`01 ·`), eyebrows, year columns in lists, metadata.
 - **Display tracking:** −0.02em on display; 0 on body.
 - **Type scale anchor:** `--text-display` = `clamp(3.25rem, 8vw, 6.5rem)`.

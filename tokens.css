@@ -23,9 +23,12 @@
   --color-focus:        oklch(48.0% 0.150 25);
 
   /* ──── Type · stacks ──────────────────────────────────────────────── */
-  --font-display: 'Caraque', Georgia, 'Times New Roman', serif;
-  --font-body:    'Caraque', Georgia, 'Times New Roman', serif;
-  --font-mono:    'GT America Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  /* Caraque / GT America Mono were never present in the repo. Substituted
+   * with Fraunces (warm editorial serif) and IBM Plex Mono, self-hosted
+   * via next/font/google in layout.tsx — no runtime Google CDN requests. */
+  --font-display: var(--font-fraunces), Georgia, 'Times New Roman', serif;
+  --font-body:    var(--font-fraunces), Georgia, 'Times New Roman', serif;
+  --font-mono:    var(--font-plex-mono), ui-monospace, 'SF Mono', Menlo, monospace;
 
   /* ──── Type · scale (clamped, fluid) ──────────────────────────────── */
   --text-xs:        0.75rem;     /* 12px · captions, year columns */

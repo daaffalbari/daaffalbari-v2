@@ -20,7 +20,7 @@ export function Footer() {
               build something together — write to me.
             </p>
             <p className="mt-[var(--space-md)] text-[var(--color-ink-2)]">
-              Set in Caraque and GT America Mono. Written and shipped from
+              Set in Fraunces and IBM Plex Mono. Written and shipped from
               Bandung, Indonesia. Last revised{" "}
               {new Date().toLocaleDateString("en-GB", {
                 month: "long",
