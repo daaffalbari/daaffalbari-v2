@@ -38,10 +38,18 @@ const RSS2JSON_API = "https://api.rss2json.com/v1/api.json";
 
 export async function getMediumPosts(limit: number = 6): Promise<MediumPost[]> {
   try {
-    const response = await fetch(
-      `${RSS2JSON_API}?rss_url=https://medium.com/feed/@${MEDIUM_USERNAME}`,
-      { next: { revalidate: 3600 } } // Cache for 1 hour
-    );
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 8000);
+
+    let response: Response;
+    try {
+      response = await fetch(
+        `${RSS2JSON_API}?rss_url=https://medium.com/feed/@${MEDIUM_USERNAME}`,
+        { next: { revalidate: 3600 }, signal: controller.signal } // Cache for 1 hour
+      );
+    } finally {
+      clearTimeout(timeoutId);
+    }
 
     if (!response.ok) {
       throw new Error("Failed to fetch Medium posts");

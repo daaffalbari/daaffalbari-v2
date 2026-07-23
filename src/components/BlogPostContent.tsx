@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Check, Link2, Linkedin, Twitter } from "lucide-react";
@@ -130,10 +131,13 @@ export function BlogPostContent({ post, readTime }: BlogPostContentProps) {
               className="my-[var(--space-2xl)]"
             >
               <div className="relative aspect-[21/9] w-full overflow-hidden border border-[var(--color-rule)]">
-                <img
+                <Image
                   src={post.thumbnail}
                   alt={post.title}
-                  className="h-full w-full object-cover"
+                  fill
+                  unoptimized
+                  sizes="(min-width: 1152px) 1152px, 100vw"
+                  className="object-cover"
                 />
               </div>
             </motion.figure>
