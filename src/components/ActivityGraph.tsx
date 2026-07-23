@@ -85,7 +85,7 @@ export function ActivityGraph() {
     >
       <h3 className="eyebrow">Shipping rhythm</h3>
 
-      <div className="mt-[var(--space-md)] overflow-x-auto">
+      <div className="mt-[var(--space-md)] flex justify-center overflow-x-auto">
         <div
           className="inline-flex flex-col gap-[var(--space-2xs)]"
           style={{ minWidth: WEEKS * PITCH + 32 }}
@@ -167,7 +167,7 @@ export function ActivityGraph() {
         </div>
       </div>
 
-      <p className="mt-[var(--space-sm)] max-w-[var(--measure-prose)] text-sm text-[var(--color-ink-3)]">
+      <p className="mx-auto mt-[var(--space-sm)] max-w-[var(--measure-narrow)] text-center text-sm text-[var(--color-ink-3)]">
         A rough shape of the last year. Most of the actual commits live in
         private company repositories and don&apos;t show up on a public
         profile.
