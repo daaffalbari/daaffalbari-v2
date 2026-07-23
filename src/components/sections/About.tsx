@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { skills, education } from "@/lib/data";
+import { ActivityGraph } from "@/components/ActivityGraph";
 
 export function About() {
   const ref = useRef<HTMLDivElement>(null);
@@ -105,6 +106,8 @@ export function About() {
             ))}
           </div>
         </motion.div>
+
+        <ActivityGraph />
       </div>
     </section>
   );
