@@ -15,23 +15,7 @@ export function Hero({ onOpenChat }: HeroProps) {
       className="relative pt-[calc(var(--nav-height)+var(--space-2xl))] pb-[var(--space-3xl)]"
     >
       <div className="page">
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="eyebrow"
-        >
-          Issue №01 ·{" "}
-          {new Date().toLocaleDateString("en-GB", {
-            month: "long",
-            year: "numeric",
-          })}{" "}
-          · Bandung, Indonesia
-        </motion.p>
-
-        <hr className="mt-[var(--space-md)] border-0 border-t border-[var(--color-rule)]" />
-
-        <div className="mt-[var(--space-2xl)] grid gap-[var(--space-2xl)] md:grid-cols-12">
+        <div className="grid gap-[var(--space-2xl)] md:grid-cols-12">
           <div className="md:col-span-8">
             <motion.h1
               initial={{ opacity: 0 }}
