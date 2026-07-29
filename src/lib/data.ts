@@ -1,4 +1,4 @@
-export const SITE_URL = "https://daaffalbari.dev";
+export const SITE_URL = "https://daaffalbari.tech";
 
 export const personalInfo = {
   name: "Daffa Albari",
