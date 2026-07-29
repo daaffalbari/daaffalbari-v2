@@ -179,3 +179,6 @@ become available as Tailwind utilities (`bg-paper`, `text-ink`,
 Designed by Hallmark on behalf of Daffa Albari. Editorial genre selected by
 the user. Hiring-led use case inferred from "Mixed — but lead with hiring"
 audience choice. Tone confirmed as Editorial via preview comparison.
+
+## Rules
+@rules/UX_RULES.md

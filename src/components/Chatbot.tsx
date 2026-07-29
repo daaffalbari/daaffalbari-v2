@@ -6,9 +6,6 @@ import {
   MessageCircle,
   X,
   Send,
-  Bot,
-  User,
-  Sparkles,
   Loader2,
   Trash2,
 } from "lucide-react";

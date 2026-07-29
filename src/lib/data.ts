@@ -60,119 +60,7 @@ export const experiences = [
   },
 ];
 
-export const projects = [
-  {
-    id: 1,
-    title: "Agrimate",
-    description:
-      "An app that helps farmers take better care of their crops — just snap a photo and it tells you if something's wrong. Plus smart watering and price predictions!",
-    longDescription:
-      "We built Agrimate because farming shouldn't require guesswork. Point your phone at a plant, get instant disease diagnosis. It even helps with funding applications and connects farmers with buyers. Pretty cool to see tech actually helping real people.",
-    preview: "/images/project/agrimate/preview.png",
-    mockup: "/images/project/agrimate/mockup.png",
-    tags: ["CNN", "TensorFlow", "IoT", "Android", "LLM"],
-    achievements: [
-      "Top 20 International Microsoft Imagine Cup 2024",
-      "Merit Awards APICTA Hong Kong",
-      "PKM Funding 2024",
-    ],
-    role: "ML/AI Engineer",
-    category: "Mobile/ML",
-    type: "mobile",
-    featured: true,
-    links: {
-      live: "https://agrimate.unikomcodelabs.id/",
-      video: "https://youtu.be/DfnkvKKGn7w",
-    },
-  },
-  {
-    id: 2,
-    title: "MainChick",
-    description:
-      "Think of it as a smart assistant for chicken farmers — monitors everything from temperature to early signs of disease, plus a chatbot that knows a lot about chickens.",
-    longDescription:
-      "MainChick keeps an eye on barn conditions 24/7 and spots potential health issues before they become problems. The AI chatbot is surprisingly good at answering chicken-related questions (we trained it well!).",
-    preview: "/images/project/mainchick/preview.png",
-    mockup: "/images/project/mainchick/mockup.png",
-    tags: ["Machine Learning", "IoT", "Chatbot", "Android"],
-    achievements: [
-      "Finalist Google Solution Challenge 2024",
-      "Finalist International Imagine Cup 2023",
-      "Top 2 Astranauts 2023",
-    ],
-    role: "AI/ML Engineer",
-    category: "Mobile/ML",
-    type: "mobile",
-    featured: true,
-    links: {
-      live: "https://mainchick.unikomcodelabs.id/",
-      video: "https://www.youtube.com/watch?v=rNzA4hNCjNk",
-      github: "https://github.com/daaffalbari/mainchick-mobile",
-    },
-  },
-  {
-    id: 3,
-    title: "Peaky Blinder",
-    description:
-      "Eye check-ups made accessible — just use your phone camera. The AI spots signs of diabetic eye problems early, and there's a friendly chatbot to answer your health questions.",
-    longDescription:
-      "Not everyone can get to a specialist, so we brought the specialist to your phone. Quick, accurate eye scans that could catch problems before they get serious. The chatbot is there to help you understand what's going on.",
-    preview: "/images/project/peaky_blinder/preview.png",
-    mockup: "/images/project/peaky_blinder/mockup.png",
-    tags: ["Azure Vision", "LLM", "Healthcare", "Android"],
-    achievements: [
-      "Runner up AI Innovation Compfest 2024",
-      "Audience Award Compfest 2024",
-      "Finalist Gemastik 2024",
-    ],
-    role: "AI/ML Engineer",
-    category: "Healthcare",
-    type: "mobile",
-    featured: true,
-    links: {
-      github: "https://github.com/orgs/OpenEye-team/dashboard",
-    },
-  },
-  {
-    id: 4,
-    title: "OPet",
-    description:
-      "Finding your perfect pet match — the app learns what kind of pet fits your life, shows you adorable adoptables nearby, and even identifies breeds from photos.",
-    longDescription:
-      "Too many pets end up abandoned because people didn't pick the right one. OPet helps you find a pet that actually fits your lifestyle, not just the cutest face (though they're pretty cute). Snap a photo and it tells you the breed too!",
-    preview: "/images/project/opet/preview.png",
-    mockup: "/images/project/opet/mockup.png",
-    tags: ["CNN", "Image Recognition", "Maps API", "Android"],
-    achievements: [],
-    role: "Machine Learning Engineer",
-    category: "Mobile/ML",
-    type: "mobile",
-    featured: false,
-    links: {
-      video: "https://www.youtube.com/watch?v=cgZ7gm1bPlM",
-      github: "https://github.com/orgs/C23-PS008/dashboard",
-    },
-  },
-  {
-    id: 5,
-    title: "SociaLabs",
-    description:
-      "Making sense of Twitter chaos — see what people are really talking about, how they feel about it, and who's influencing the conversation.",
-    longDescription:
-      "Twitter is noisy, but there's gold in there if you know where to look. Socialabs finds the patterns, tracks the sentiment, and the AI chatbot helps you dig deeper. Great for brands who want to actually understand their audience.",
-    preview: "/images/project/socialabs/preview.png",
-    mockup: "/images/project/socialabs/mockup.png",
-    tags: ["NLP", "SNA", "Sentiment Analysis", "RAG"],
-    achievements: ["APICTA 2024 at Brunei"],
-    role: "AI Engineer",
-    category: "Data Science",
-    type: "web",
-    featured: false,
-    links: {
-      live: "http://socialabs.me/",
-    },
-  },
-];
+// Projects & research now live in the Keystatic CMS (src/content/projects/), read via src/lib/projects.ts.
 
 export const achievements = [
   {
@@ -180,48 +68,36 @@ export const achievements = [
     title: "Global Top 100 Finalist",
     organization: "Google Solution Challenge",
     year: "2023 & 2024",
-    icon: "globe",
-    color: "cyan",
   },
   {
     id: 2,
     title: "Top 10 of 625 Teams",
     organization: "Microsoft Imagine Cup",
     year: "2022",
-    icon: "trophy",
-    color: "purple",
   },
   {
     id: 3,
     title: "1st Runner-Up + Audience Choice",
     organization: "COMPFEST AI Innovation Challenge",
     year: "2023",
-    icon: "award",
-    color: "pink",
   },
   {
     id: 4,
     title: "National Finalist",
     organization: "Gemastik XVI Software Engineering",
     year: "2023",
-    icon: "medal",
-    color: "green",
   },
   {
     id: 5,
     title: "Rector's Scholarship",
     organization: "UNIKOM",
     year: "3rd sem – graduation",
-    icon: "graduation",
-    color: "cyan",
   },
   {
     id: 6,
     title: "TensorFlow Developer Certified",
     organization: "Google",
     year: "2023",
-    icon: "certificate",
-    color: "purple",
   },
 ];
 
@@ -274,42 +150,6 @@ export const education = {
     "Database",
   ],
 };
-
-export const blogPosts = [
-  {
-    id: 1,
-    title: "Building LLM Agents That Actually Work in Production",
-    excerpt:
-      "Lessons from building agents that don't break at 3 AM. Covers the boring-but-important stuff like observability and graceful failures.",
-    date: "2025-01-10",
-    readTime: "12 min read",
-    tags: ["LLM", "Agents", "Production"],
-    image: "/blog/llm-agents.jpg",
-    slug: "building-production-llm-agents",
-  },
-  {
-    id: 2,
-    title: "When Regular RAG Isn't Cutting It — Enter Graph RAG",
-    excerpt:
-      "Sometimes you need your AI to understand relationships, not just keywords. Here's how knowledge graphs can help.",
-    date: "2024-12-15",
-    readTime: "10 min read",
-    tags: ["RAG", "Knowledge Graphs", "AI"],
-    image: "/blog/graph-rag.jpg",
-    slug: "graph-rag-deep-dive",
-  },
-  {
-    id: 3,
-    title: "Getting Your ML Model Out of Jupyter and Into the Real World",
-    excerpt:
-      "A no-nonsense guide to deploying ML models. From 'it works on my machine' to 'it actually works in production.'",
-    date: "2024-11-20",
-    readTime: "15 min read",
-    tags: ["Kubernetes", "MLOps", "Docker"],
-    image: "/blog/ml-deployment.jpg",
-    slug: "ml-deployment-kubernetes",
-  },
-];
 
 export const navLinks = [
   { href: "#about", label: "About" },

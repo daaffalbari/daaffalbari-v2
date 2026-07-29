@@ -1,0 +1,41 @@
+---
+title: How we cut our LLM bill by 75%
+publishedAt: 2026-07-08
+draft: false
+excerpt: >-
+  Most LLM cost isn't the model — it's everything you do around it. Here's what
+  actually moved the number for us, without hurting reliability.
+coverAlt: ""
+tags:
+  - LLM
+  - Infrastructure
+  - Cost
+---
+When the monthly bill for our AI infrastructure started climbing, the instinct
+was to reach for a cheaper model. That turned out to be the least interesting
+lever.
+
+## The bill is mostly around the model, not in it
+
+We traced spend request by request and found the pattern most teams find:
+retries, oversized context, duplicate calls, and prompts that re-sent the same
+static instructions thousands of times a day. The model was doing its job —
+we were feeding it badly.
+
+## What actually moved the number
+
+- **Cache the boring parts.** Static system prompts and reference context got
+  cached instead of re-sent on every call.
+- **Right-size the context.** We stopped stuffing whole documents into prompts
+  and retrieved only what a request needed.
+- **Kill silent retries.** A bad backoff config was quietly tripling some calls.
+- **Route by difficulty.** Easy requests don't need the biggest model; hard
+  ones do. Routing paid for itself.
+
+## The part that's easy to skip
+
+None of this is safe without observability. We wired tracing through every call
+first, so we could prove a change cut cost *without* quietly hurting quality.
+That's the whole game: cheaper is only real if reliability holds.
+
+The result was a 75% reduction — and, more usefully, a bill we now understand.
