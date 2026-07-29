@@ -3,39 +3,47 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { motion, useInView } from "framer-motion";
-import {
-  getMediumPosts,
-  calculateReadTime,
-  MEDIUM_PROFILE_URL,
-  type MediumPost,
-} from "@/lib/medium";
+import { getMediumPosts, calculateReadTime, MEDIUM_PROFILE_URL } from "@/lib/medium";
+import { mergeAndSortPosts, type PostListItem } from "@/lib/blog";
 
-export function Blog() {
+export function Blog({ cmsPosts }: { cmsPosts: PostListItem[] }) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
-  const [posts, setPosts] = useState<MediumPost[]>([]);
+  const [mediumPosts, setMediumPosts] = useState<PostListItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     let cancelled = false;
     (async () => {
-      const mediumPosts = await getMediumPosts(6);
-      if (!cancelled) {
-        setPosts(mediumPosts);
-        setIsLoading(false);
-      }
+      const medium = await getMediumPosts(6);
+      if (cancelled) return;
+      setMediumPosts(
+        medium.map((p) => ({
+          slug: p.slug,
+          title: p.title,
+          date: p.pubDate,
+          readTime: calculateReadTime(p.content),
+          source: "medium" as const,
+          href: `/blog/${p.slug}`,
+        }))
+      );
+      setIsLoading(false);
     })();
     return () => {
       cancelled = true;
     };
   }, []);
 
+  const posts = mergeAndSortPosts(cmsPosts, mediumPosts).slice(0, 6);
+
   const formatDate = (dateString: string) =>
-    new Date(dateString).toLocaleDateString("en-GB", {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    });
+    dateString
+      ? new Date(dateString).toLocaleDateString("en-GB", {
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        })
+      : "";
 
   return (
     <section id="notes" ref={ref} className="chapter">
@@ -59,10 +67,10 @@ export function Blog() {
           className="standfirst mb-[var(--space-xl)]"
         >
           Field notes from shipping models, agents, and the messy infrastructure
-          underneath. Cross-posted from Medium.
+          underneath — written here, with some cross-posted from Medium.
         </motion.p>
 
-        {isLoading ? (
+        {isLoading && posts.length === 0 ? (
           <ul className="border-t border-[var(--color-ink)]">
             {Array.from({ length: 3 }).map((_, i) => (
               <li
@@ -79,7 +87,7 @@ export function Blog() {
           </ul>
         ) : posts.length === 0 ? (
           <p className="text-[var(--color-ink-2)]">
-            Nothing fetched yet. Read everything on{" "}
+            Nothing here yet. Read everything on{" "}
             <a
               href={MEDIUM_PROFILE_URL}
               target="_blank"
@@ -93,7 +101,7 @@ export function Blog() {
           <ol className="border-t border-[var(--color-ink)]">
             {posts.map((post, index) => (
               <motion.li
-                key={post.guid}
+                key={`${post.source}-${post.slug}`}
                 initial={{ opacity: 0 }}
                 animate={isInView ? { opacity: 1 } : {}}
                 transition={{
@@ -104,7 +112,7 @@ export function Blog() {
                 className="border-b border-[var(--color-rule)]"
               >
                 <Link
-                  href={`/blog/${post.slug}`}
+                  href={post.href}
                   className="group grid grid-cols-[3rem_1fr_auto] items-baseline gap-[var(--space-md)] py-[var(--space-md)] transition-colors hover:bg-[var(--color-paper-2)]"
                 >
                   <span className="font-[var(--font-mono)] text-xs uppercase tracking-[0.08em] text-[var(--color-ink-3)]">
@@ -116,7 +124,8 @@ export function Blog() {
                       {post.title}
                     </h3>
                     <p className="mt-[var(--space-3xs)] font-[var(--font-mono)] text-xs uppercase tracking-[0.08em] text-[var(--color-ink-3)]">
-                      {formatDate(post.pubDate)} · {calculateReadTime(post.content)}
+                      {formatDate(post.date)} · {post.readTime}
+                      {post.source === "medium" ? " · Medium" : ""}
                     </p>
                   </div>
 
