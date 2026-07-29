@@ -64,8 +64,10 @@ export async function getMediumPosts(limit: number = 6): Promise<MediumPost[]> {
     return data.items.slice(0, limit).map((item) => ({
       ...item,
       slug: generateSlug(item.title),
-      // Store full content for blog detail page
-      content: item.description,
+      // Store full content for blog detail page. Medium almost always
+      // front-loads the same cover photo we already show as the hero
+      // image above the article, so strip it to avoid showing it twice.
+      content: stripLeadingImage(item.description),
       // Clean up the description (remove HTML tags for excerpt)
       description: item.description
         .replace(/<[^>]*>/g, "")
@@ -90,6 +92,12 @@ export async function getMediumPostBySlug(slug: string): Promise<MediumPost | nu
 function extractFirstImage(html: string): string | null {
   const imgMatch = html.match(/<img[^>]+src="([^">]+)"/);
   return imgMatch ? imgMatch[1] : null;
+}
+
+// Removes a leading <img> (optionally wrapped in <figure>) so the cover
+// photo isn't repeated right below the hero image that already shows it.
+function stripLeadingImage(html: string): string {
+  return html.replace(/^\s*(?:<figure[^>]*>\s*)?<img[^>]*>(?:\s*<\/figure>)?/i, "");
 }
 
 export function calculateReadTime(content: string): string {
