@@ -77,6 +77,18 @@ and edits will commit to the repo automatically.
 
 ---
 
+## Locking down `/keystatic` (do this before your first deploy)
+
+`/keystatic` and `/api/keystatic/*` have no auth of their own — the GitHub
+App above gates *writes*, but the admin UI itself (including draft posts,
+which are only hidden from the *public* site) is otherwise reachable by
+anyone who finds the URL.
+
+Set **`KEYSTATIC_ADMIN_PASSWORD`** on Vercel (Production + Preview) and
+`src/middleware.ts` will require an HTTP Basic Auth password on both routes
+before anything else runs. Any username works — only the password is
+checked. Leave it unset locally; local dev stays password-free.
+
 ## Notes
 
 - **Images** you upload in the CMS are saved under `public/images/projects/` (or
