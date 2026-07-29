@@ -10,6 +10,7 @@ const nextConfig: NextConfig = {
     "/api/chat": ["./src/content/**/*"],
     "/work/[slug]": ["./src/content/**/*"],
     "/blog/[slug]": ["./src/content/**/*"],
+    "/sitemap": ["./src/content/**/*"],
   },
 };
 
