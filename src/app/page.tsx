@@ -1,49 +1,11 @@
-"use client";
+import { getAllProjects } from "@/lib/projects";
+import { getCmsPostListItems } from "@/lib/posts";
+import { HomeClient } from "@/components/HomeClient";
 
-import { useState } from "react";
-import { Navigation } from "@/components/Navigation";
-import { CommandPalette } from "@/components/CommandPalette";
-import { Footer } from "@/components/Footer";
-import { SmoothScroll } from "@/components/SmoothScroll";
-import { Chatbot } from "@/components/Chatbot";
-import {
-  Hero,
-  About,
-  Experience,
-  Projects,
-  Achievements,
-  Blog,
-  Contact,
-} from "@/components/sections";
-
-export default function Home() {
-  const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
-  const [isChatOpen, setIsChatOpen] = useState(false);
-
-  return (
-    <SmoothScroll>
-      <Navigation onOpenCommandPalette={() => setIsCommandPaletteOpen(true)} />
-      <CommandPalette
-        isOpen={isCommandPaletteOpen}
-        onClose={() => setIsCommandPaletteOpen(false)}
-      />
-
-      <main>
-        <Hero onOpenChat={() => setIsChatOpen(true)} />
-        <About />
-        <Experience />
-        <Projects />
-        <Achievements />
-        <Blog />
-        <Contact />
-      </main>
-
-      <Footer />
-
-      <Chatbot
-        externalOpen={isChatOpen}
-        onExternalOpenChange={setIsChatOpen}
-      />
-    </SmoothScroll>
-  );
+export default async function Home() {
+  const [projects, cmsPosts] = await Promise.all([
+    getAllProjects(),
+    getCmsPostListItems(),
+  ]);
+  return <HomeClient projects={projects} cmsPosts={cmsPosts} />;
 }

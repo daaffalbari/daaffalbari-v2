@@ -2,21 +2,24 @@ import { OpenRouter } from "@openrouter/sdk";
 import {
   personalInfo,
   experiences,
-  projects,
   achievements,
   skills,
   education,
 } from "@/lib/data";
+import { getAllProjects } from "@/lib/projects";
 
 const openrouter = new OpenRouter({
   apiKey: process.env.OPENROUTER_API_KEY!,
 });
 
-// Build comprehensive context about Daffa
-function buildSystemPrompt(): string {
+// Build comprehensive context about Daffa. Projects are read from the CMS so
+// the assistant stays in sync with what the site shows.
+async function buildSystemPrompt(): Promise<string> {
   // Find current job
   const currentJob = experiences.find((exp) => exp.type === "current");
   const pastJobs = experiences.filter((exp) => exp.type === "past");
+
+  const projects = await getAllProjects();
 
   const currentJobContext = currentJob
     ? `**CURRENT POSITION (Jan 2025 - Present):**
@@ -125,7 +128,7 @@ export async function POST(request: Request) {
       });
     }
 
-    const systemPrompt = buildSystemPrompt();
+    const systemPrompt = await buildSystemPrompt();
 
     const stream = await openrouter.chat.send({
       model: process.env.MODEL_NAME || "openai/gpt-4o-mini",
