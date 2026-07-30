@@ -1,0 +1,65 @@
+---
+title: "MCP's Stateless Rewrite: What We're Actually Migrating"
+publishedAt: 2026-07-30
+draft: true
+excerpt: >-
+  Anthropic's July 2026 MCP spec drops protocol-level sessions entirely. For
+  anyone running MCP servers in production, that's not a footnote — it's a
+  different deployment model.
+coverAlt: ""
+tags:
+  - MCP
+  - LLM Agents
+  - Infrastructure
+---
+The Model Context Protocol just shipped its biggest revision since it
+launched, and it's not an incremental one. The 2026-07-28 spec drops
+protocol-level sessions entirely, and if you're running MCP servers in
+production the way we are for our agent framework, this is a genuine
+migration, not a changelog to skim.
+
+## Sessions are gone, and that's the whole point
+
+Every MCP interaction used to start with a handshake: negotiate capabilities,
+get a session ID back, and keep that session pinned to one server instance
+for the life of the connection. That pinning is exactly what made MCP servers
+annoying to run at any scale — you needed sticky sessions, shared session
+storage, or both.
+
+The new spec kills the handshake. Every request now carries its own protocol
+version, client identity, and capabilities inline. A single tool call is
+fully self-contained — no server-side session to look up, no particular
+instance it has to land on.
+
+## What that actually buys you
+
+- **Round-robin load balancing works again.** No sticky sessions, no shared
+  session store. A plain load balancer in front of a Kubernetes deployment is
+  enough.
+- **Servers can ask mid-operation without holding a stream open.** Multi
+  round-trip requests replace the old long-lived bidirectional connection for
+  things like missing-parameter prompts or confirmations.
+- **Gateways can route without parsing bodies.** Method and tool names now
+  travel in headers, so a gateway can authorize and route a request without
+  touching the JSON payload.
+- **Tool and resource listings are cacheable.** They now carry TTL and
+  cache-scope hints instead of forcing a fresh call every time.
+
+## The part that'll actually cost you time
+
+Tasks — the mechanism for long-running operations — got pulled out of core
+and into a formal extension, alongside MCP Apps and Enterprise Managed
+Authorization. If anything in your stack depended on Tasks being part of the
+base protocol, that's a real code change, not a version bump.
+
+There's a twelve-month deprecation window for what's removed, and old and new
+aren't guaranteed to talk to each other. All four Tier-1 SDKs — TypeScript,
+Python, Go, C# — already support it, with Rust in beta.
+
+## Where we're landing
+
+Our agent framework runs its own MCP servers behind Kubernetes, and the
+session-affinity dance was never fun to operate. Losing it is a
+straightforward win. The Tasks extraction is the part we're actually
+budgeting time for — anything built assuming Tasks was baked into core needs
+a real look before we touch the new spec in production.
