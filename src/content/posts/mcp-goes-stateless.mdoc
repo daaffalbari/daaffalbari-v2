@@ -5,7 +5,8 @@ draft: true
 excerpt: >-
   Anthropic's July 2026 MCP spec drops protocol-level sessions entirely. For
   anyone running MCP servers in production, that's not a footnote — it's a
-  different deployment model.
+  different deployment model. Here's the wire-format diff and a small
+  simulation of why it matters.
 coverAlt: ""
 tags:
   - MCP
@@ -13,37 +14,179 @@ tags:
   - Infrastructure
 ---
 The Model Context Protocol just shipped its biggest revision since it
-launched, and it's not an incremental one. The 2026-07-28 spec drops
-protocol-level sessions entirely, and if you're running MCP servers in
-production the way we are for our agent framework, this is a genuine
-migration, not a changelog to skim.
+launched, and it's not an incremental one. The 2026-07-28 spec (finalized
+after a release candidate) drops protocol-level sessions entirely — SEP-2575
+and SEP-2567 both remove the initialization handshake and the
+`Mcp-Session-Id` header from the Streamable HTTP transport. If you're running
+MCP servers in production the way we are for our agent framework, this is a
+genuine migration, not a changelog to skim.
 
-## Sessions are gone, and that's the whole point
+## The wire format actually changed
 
-Every MCP interaction used to start with a handshake: negotiate capabilities,
-get a session ID back, and keep that session pinned to one server instance
-for the life of the connection. That pinning is exactly what made MCP servers
-annoying to run at any scale — you needed sticky sessions, shared session
-storage, or both.
+Under the old (2025-11-25) protocol, everything after `initialize` rides on a
+session ID:
 
-The new spec kills the handshake. Every request now carries its own protocol
-version, client identity, and capabilities inline. A single tool call is
-fully self-contained — no server-side session to look up, no particular
-instance it has to land on.
+```
+POST /mcp HTTP/1.1
+Mcp-Session-Id: 1868a90c-3a3f-4f5b
+Content-Type: application/json
 
-## What that actually buys you
+{"jsonrpc":"2.0","id":2,"method":"tools/call",
+ "params":{"name":"search","arguments":{"q":"otters"}}}
+```
 
-- **Round-robin load balancing works again.** No sticky sessions, no shared
-  session store. A plain load balancer in front of a Kubernetes deployment is
-  enough.
-- **Servers can ask mid-operation without holding a stream open.** Multi
-  round-trip requests replace the old long-lived bidirectional connection for
-  things like missing-parameter prompts or confirmations.
-- **Gateways can route without parsing bodies.** Method and tool names now
-  travel in headers, so a gateway can authorize and route a request without
-  touching the JSON payload.
-- **Tool and resource listings are cacheable.** They now carry TTL and
+That header is what pinned you to one server instance — whichever instance
+handled `initialize` is the only one that knows this session exists. Under
+2026-07-28, there's no session at all. Every request is self-describing:
+
+```
+POST /mcp HTTP/1.1
+MCP-Protocol-Version: 2026-07-28
+Mcp-Method: tools/call
+Mcp-Name: search
+Content-Type: application/json
+
+{"jsonrpc":"2.0","id":1,"method":"tools/call",
+ "params":{"name":"search","arguments":{"q":"otters"},
+           "_meta":{"io.modelcontextprotocol/clientInfo":
+                    {"name":"my-app","version":"1.0"}}}}
+```
+
+Protocol version, client identity, and client capabilities now travel inside
+`_meta` on every call instead of being negotiated once. `Mcp-Method` and
+`Mcp-Name` move into headers too, so a gateway can route and authorize
+without parsing the JSON body at all.
+
+## A minimal simulation of why that matters
+
+The claim everyone makes is "now you can round-robin without sticky
+sessions." Rather than take that on faith, here's a small Python simulation —
+two worker instances, a naive round-robin balancer, nothing shared between
+them, which is exactly the failure mode session pinning was built to avoid.
+
+```python
+import itertools
+import random
+
+class Worker:
+    """A single MCP server instance behind a plain round-robin balancer.
+    Nothing is shared between workers -- session state, if any, only
+    ever lives in the instance that created it."""
+
+    def __init__(self, name):
+        self.name = name
+        self.sessions = {}  # session_id -> context, stateful-era only
+
+    # --- Old protocol (2025-11-25): session-pinned ---
+    def initialize(self):
+        session_id = f"sess-{random.randint(1000, 9999)}"
+        self.sessions[session_id] = {"turns": 0}
+        return session_id
+
+    def handle_stateful(self, session_id, tool, args):
+        if session_id not in self.sessions:
+            raise LookupError(
+                f"{self.name}: no record of {session_id} -- "
+                f"this instance never saw the initialize call"
+            )
+        self.sessions[session_id]["turns"] += 1
+        turn = self.sessions[session_id]["turns"]
+        return f"{self.name} handled {tool}({args}) -- turn {turn}"
+
+    # --- New protocol (2026-07-28): stateless ---
+    def handle_stateless(self, request):
+        params = request["params"]
+        meta = params["_meta"]["io.modelcontextprotocol/clientInfo"]
+        return (
+            f"{self.name} handled {params['name']}({params['arguments']}) "
+            f"for client {meta['name']} -- no session lookup needed"
+        )
+
+
+def round_robin_pool(workers):
+    return itertools.cycle(workers)
+
+
+def demo_stateful_breaks_under_round_robin():
+    print("=== Old protocol: Mcp-Session-Id, sticky sessions required ===")
+    workers = [Worker("worker-a"), Worker("worker-b")]
+    pool = round_robin_pool(workers)
+
+    init_worker = next(pool)
+    session_id = init_worker.initialize()
+    print(f"initialize() landed on {init_worker.name}, got {session_id}")
+
+    for i in range(3):
+        worker = next(pool)
+        try:
+            result = worker.handle_stateful(session_id, "search", {"q": "otters"})
+            print(f"  call {i + 1}: {result}")
+        except LookupError as e:
+            print(f"  call {i + 1}: FAILED -- {e}")
+
+
+def demo_stateless_just_works():
+    print("\n=== New protocol (2026-07-28): self-contained requests ===")
+    workers = [Worker("worker-a"), Worker("worker-b")]
+    pool = round_robin_pool(workers)
+
+    request = {
+        "jsonrpc": "2.0",
+        "id": 1,
+        "method": "tools/call",
+        "params": {
+            "name": "search",
+            "arguments": {"q": "otters"},
+            "_meta": {
+                "io.modelcontextprotocol/clientInfo": {"name": "my-app", "version": "1.0"}
+            },
+        },
+    }
+
+    for i in range(3):
+        worker = next(pool)
+        result = worker.handle_stateless(request)
+        print(f"  call {i + 1}: {result}")
+
+
+if __name__ == "__main__":
+    random.seed(7)
+    demo_stateful_breaks_under_round_robin()
+    demo_stateless_just_works()
+```
+
+Running it is the whole argument:
+
+```
+=== Old protocol: Mcp-Session-Id, sticky sessions required ===
+initialize() landed on worker-a, got sess-6305
+  call 1: FAILED -- worker-b: no record of sess-6305 -- this instance never saw the initialize call
+  call 2: worker-a handled search({'q': 'otters'}) -- turn 1
+  call 3: FAILED -- worker-b: no record of sess-6305 -- this instance never saw the initialize call
+
+=== New protocol (2026-07-28): self-contained requests ===
+  call 1: worker-a handled search({'q': 'otters'}) for client my-app -- no session lookup needed
+  call 2: worker-b handled search({'q': 'otters'}) for client my-app -- no session lookup needed
+  call 3: worker-a handled search({'q': 'otters'}) for client my-app -- no session lookup needed
+```
+
+Two out of three calls fail under naive round-robin with session pinning —
+not because anything is broken, but because a round-robin balancer has no
+way to know a session only exists on one instance. That's the entire reason
+MCP deployments needed sticky routing or a shared session store in the first
+place. Strip the session out of the protocol, and the failure mode is gone
+by construction, not by careful ops work.
+
+## What else that buys you
+
+- **Multi round-trip requests.** Servers can now ask for missing parameters
+  or confirmations mid-operation without holding a long-lived bidirectional
+  stream open.
+- **Cacheable list results.** Tool and resource listings carry TTL and
   cache-scope hints instead of forcing a fresh call every time.
+- **Authorization hardening.** RFC 9207 issuer validation, a move toward
+  Client ID Metadata Documents, and credentials bound to a specific
+  authorization server.
 
 ## The part that'll actually cost you time
 
@@ -60,6 +203,8 @@ Python, Go, C# — already support it, with Rust in beta.
 
 Our agent framework runs its own MCP servers behind Kubernetes, and the
 session-affinity dance was never fun to operate. Losing it is a
-straightforward win. The Tasks extraction is the part we're actually
-budgeting time for — anything built assuming Tasks was baked into core needs
-a real look before we touch the new spec in production.
+straightforward win, and the simulation above is close to literally what
+changes for us: fewer ways for a request to land somewhere it can't be
+served. The Tasks extraction is the part we're actually budgeting time for —
+anything built assuming Tasks was baked into core needs a real look before we
+touch the new spec in production.
